@@ -3,7 +3,7 @@ import axios from "axios"
 export const apiCaller = async (httpReq, params, url) => {
 
     var response = null
-    let tokenStr = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTYyNjA1ODg1MywiZXhwIjoxNjI2NjYzNjUzfQ.-STtHL2Ti3DDy2Pt_v9MnWQnust8ceqat6obg-ZB998"
+    let tokenStr = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTYyNjg1Nzc0MywiZXhwIjoxNjI3NDYyNTQzfQ.C9hmeWvHvaz3pC9lnWefR5oO3lJj4vLR8vVnTevBWOI"
 
     if (httpReq === "get") {
 

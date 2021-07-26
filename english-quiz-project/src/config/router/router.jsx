@@ -5,6 +5,7 @@ import { ROUTER_CONST } from "../paramsConst/RouterConst";
 
 const Home = lazy(() => import("../../pages/home"));
 const Game = lazy(() => import("../../pages/games"));
+const Oauth = lazy(() => import("../../pages/oauth"));
 
 const AppRoutes = () => {
   return (
@@ -16,6 +17,11 @@ const AppRoutes = () => {
             exact
             path={ROUTER_CONST.home}
             component={Home}
+          />
+            <Route
+            exact
+            path={ROUTER_CONST.login}
+            component={Oauth}
           />
           <Route
             exact

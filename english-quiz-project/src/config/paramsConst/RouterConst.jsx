@@ -1,4 +1,6 @@
 export const ROUTER_CONST = {
     home: "/",
-    game: "/exam"
+    game: "/exam",
+    login: "/login",
+    register: "/register"
 }
