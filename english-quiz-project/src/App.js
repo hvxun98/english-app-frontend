@@ -6,7 +6,7 @@ import './BaseStyle.scss'
 
 function App() {
   return (
-    <Router basename="/student/">
+    <Router>
       <AppRouter />
     </Router>
   );

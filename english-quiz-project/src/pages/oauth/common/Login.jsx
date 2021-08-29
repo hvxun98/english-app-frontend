@@ -1,10 +1,50 @@
-import React from 'react';
-import { Form, Input, Button, Checkbox } from 'antd';
+import React, { useEffect } from 'react';
+import { Form, Input, Checkbox } from 'antd';
+import { LoginOutlined } from '@ant-design/icons'
+import HvxButton from '../../../components/button/HvxButton';
+import { apiCaller } from '../../../config/apiCaller/Caller';
+import { ApiUrl } from '../../../config/api/apiConst';
+import Swal from 'sweetalert2';
+import { useHistory } from 'react-router-dom';
+import { ROUTER_CONST } from '../../../config/paramsConst/RouterConst';
+import { checkDataInLocalStorage, isLogin } from '../../../utils/CheckData';
 
 const Login = () => {
 
-    const onFinish = (values) => {
-        console.log('Success:', values);
+    const history = useHistory();
+
+    useEffect(() => {
+        if(isLogin()){
+            history.push(ROUTER_CONST.home);
+        }
+    })
+
+    const onFinish = async (values) => {
+        let param = {
+            "username": values.username,
+            "password": values.password
+        }
+        console.log(param);
+
+        let res = await apiCaller("post", param, ApiUrl.login);
+        console.log(res);
+        if (res.code === 200) {
+            localStorage.setItem("_token", res.data.token);
+            localStorage.setItem("_currentUser", res.data);
+            let redirectUrl = localStorage.getItem('urlBeforeLogin')
+            if (checkDataInLocalStorage(redirectUrl)) {
+                history.push(redirectUrl)
+            } else {
+                history.push(ROUTER_CONST.game);
+            }
+        } else {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Login faild',
+                text: 'Something went wrong!',
+            })
+        }
+
     };
 
     return (
@@ -35,9 +75,9 @@ const Login = () => {
                 </Form.Item>
 
                 <Form.Item >
-                    <Button type="primary" htmlType="submit">
+                    <HvxButton type="primary" htmlType="submit" text="login" icon={<LoginOutlined className="login-button-icon" />} className="hvx-btn-login">
                         Login
-                    </Button>
+                    </HvxButton>
                 </Form.Item>
             </Form>
         </div>

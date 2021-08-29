@@ -2,6 +2,7 @@ import React, { Fragment, Suspense, lazy } from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
 import { Loader } from "../../components/loading";
 import { ROUTER_CONST } from "../paramsConst/RouterConst";
+import PrivateRoute from "./privateRouter";
 
 const Home = lazy(() => import("../../pages/home"));
 const Game = lazy(() => import("../../pages/games"));
@@ -12,8 +13,7 @@ const AppRoutes = () => {
     <Fragment>
       <Suspense fallback={Loader}>
         <Switch>
-
-          <Route
+          <PrivateRoute
             exact
             path={ROUTER_CONST.home}
             component={Home}
@@ -23,7 +23,7 @@ const AppRoutes = () => {
             path={ROUTER_CONST.login}
             component={Oauth}
           />
-          <Route
+          <PrivateRoute
             exact
             path={ROUTER_CONST.game}
             component={Game}

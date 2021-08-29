@@ -1,15 +1,12 @@
 import React from "react";
-import { Route, useLocation } from "react-router-dom";
-import { redirectLogin } from "../libs/redirects/redirectLogin";
-import { checkDataInStore } from "../libs/saveAndGetData/checkData";
-import { getToken } from "../libs/saveAndGetData/getData";
-
-// var Jwt = require("jsonwebtoken");
+import { Route, useHistory, useLocation } from "react-router-dom";
+import { isLogin } from "../../utils/CheckData";
+import { ROUTER_CONST } from "../paramsConst/RouterConst";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  const token = getToken();
 
   const location = useLocation();
+  const history = useHistory()
 
   localStorage.setItem(
     "urlBeforeLogin",
@@ -20,7 +17,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       render={({ props }) =>
-        checkDataInStore(token) ? <Component {...props} /> : redirectLogin()
+        isLogin() ? <Component {...props} /> : history.push(ROUTER_CONST.login)
       }
     />
   );

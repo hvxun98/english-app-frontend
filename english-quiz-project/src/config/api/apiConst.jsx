@@ -4,5 +4,6 @@ export const ApiUrl = {
     ListQuestionByExam: baseUrl + '/questions',
     ListExam: baseUrl + '/exams',
     getGame: baseUrl + '/games/getGame',
-    finishGame: baseUrl + '/games/finishGame'
+    finishGame: baseUrl + '/games/finishGame',
+    login: baseUrl + '/users/authenticate'
 }

@@ -1,9 +1,10 @@
 import axios from "axios"
+import { getToken } from '../../utils/GetData';
 
 export const apiCaller = async (httpReq, params, url) => {
 
     var response = null
-    let tokenStr = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTYyNjg1Nzc0MywiZXhwIjoxNjI3NDYyNTQzfQ.C9hmeWvHvaz3pC9lnWefR5oO3lJj4vLR8vVnTevBWOI"
+    let tokenStr = getToken();
 
     if (httpReq === "get") {
 
@@ -15,7 +16,6 @@ export const apiCaller = async (httpReq, params, url) => {
                 }
             })
             .then(res => {
-                console.log(res);
                 response = res.data
             })
             .catch(err => {
@@ -26,14 +26,13 @@ export const apiCaller = async (httpReq, params, url) => {
     if (httpReq === "post") {
         await axios.post(
             url,
-            params,            
+            params,
             {
                 headers: {
                     "Authorization": `Bearer ${tokenStr}`
                 }
             })
             .then(res => {
-                console.log(res);
                 response = res.data
             })
             .catch(err => {
