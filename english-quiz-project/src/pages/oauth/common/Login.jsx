@@ -30,7 +30,7 @@ const Login = () => {
         console.log(res);
         if (res.code === 200) {
             localStorage.setItem("_token", res.data.token);
-            localStorage.setItem("_currentUser", res.data);
+            localStorage.setItem("_currentUser", JSON.stringify(res.data));
             let redirectUrl = localStorage.getItem('urlBeforeLogin')
             if (checkDataInLocalStorage(redirectUrl)) {
                 history.push(redirectUrl)

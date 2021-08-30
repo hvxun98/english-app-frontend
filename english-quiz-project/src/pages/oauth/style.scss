@@ -102,6 +102,18 @@
             font-size: 20px;
             margin-left: 5px;
         }
+        
+        .eye{
+            position: relative;
+            cursor: pointer; 
+        }
+
+        .eye-icon{
+            position: absolute;
+            font-size: 20px;
+            top: -59px;
+            right: 20px;
+        }
     }
 }
 

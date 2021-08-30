@@ -2,8 +2,8 @@ import React from 'react';
 
 const ForgotPass = () => {
     return (
-        <div>
-            Forgot pass
+        <div className="center" style={{height: "100px"}}>
+            <h2>In development</h2>
         </div>
     );
 }
