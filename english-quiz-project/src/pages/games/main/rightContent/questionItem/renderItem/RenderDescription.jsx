@@ -1,5 +1,5 @@
 import React from 'react';
-import { checkTypeData } from '../../../../../../common/checkData/CheckTypeData';
+import { checkTypeData } from '../../../../../../utils/CheckData';
 import ReactAudioPlayer from "react-audio-player";
 
 const RenderDescription = ({ data }) => {

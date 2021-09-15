@@ -19,7 +19,7 @@ export const apiCaller = async (httpReq, params, url) => {
                 response = res.data
             })
             .catch(err => {
-                response = err
+                response = err.response;
             })
         return response
     }
@@ -36,7 +36,7 @@ export const apiCaller = async (httpReq, params, url) => {
                 response = res.data
             })
             .catch(err => {
-                response = err
+                response = err.response;
             })
         return response
     }

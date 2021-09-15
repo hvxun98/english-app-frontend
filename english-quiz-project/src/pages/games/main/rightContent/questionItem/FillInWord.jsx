@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Input } from 'antd';
 import './style.scss'
 import RenderDescription from './renderItem/RenderDescription';
-import {checkArrIncludesQuest} from '../../../../../common/checkData/CheckInludes'
+import { checkArrIncludesQuest } from "../../../../../utils/CheckData";
 
 const FillInWord = ({ data, stt, handleActiveQuestion, handleUnActiveQuestion, listQuestionFillWord, setListQuestionFillWord }) => {
 

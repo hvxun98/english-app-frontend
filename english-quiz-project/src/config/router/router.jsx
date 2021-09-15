@@ -13,27 +13,9 @@ const AppRoutes = () => {
     <Fragment>
       <Suspense fallback={Loader}>
         <Switch>
-          <PrivateRoute
-            exact
-            path={ROUTER_CONST.home}
-            component={Home}
-          />
-            <Route
-            exact
-            path={ROUTER_CONST.login}
-            component={Oauth}
-          />
-          <PrivateRoute
-            exact
-            path={ROUTER_CONST.game}
-            component={Game}
-          />
-          {/* <PrivateRoute
-            exact
-            path={ROUTER_CONST.exam}
-            component={ToTakeExam}
-          /> */}
-
+          <PrivateRoute exact path={ROUTER_CONST.home} component={Home} />
+          <Route exact path={ROUTER_CONST.login} component={Oauth} />
+          <PrivateRoute exact path={ROUTER_CONST.game} component={Game} />
         </Switch>
       </Suspense>
     </Fragment>
