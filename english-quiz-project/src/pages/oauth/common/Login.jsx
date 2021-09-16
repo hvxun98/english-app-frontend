@@ -1,16 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Input, Checkbox } from "antd";
 import { LoginOutlined } from "@ant-design/icons";
 import HvxButton from "../../../components/button/HvxButton";
 import { apiCaller } from "../../../config/apiCaller/Caller";
 import { ApiUrl } from "../../../config/api/apiConst";
-import Swal from "sweetalert2";
 import { useHistory } from "react-router-dom";
 import { ROUTER_CONST } from "../../../config/paramsConst/RouterConst";
 import { checkDataInLocalStorage, isLogin } from "../../../utils/CheckData";
+import Notification from "../../../components/notification/alert";
 
 const Login = () => {
   const history = useHistory();
+
+  const [notification, setNotification] = useState(false);
 
   useEffect(() => {
     if (isLogin()) {
@@ -37,10 +39,10 @@ const Login = () => {
         history.push(ROUTER_CONST.game);
       }
     } else {
-      Swal.fire({
-        icon: "warning",
-        title: "Login faild",
-        text: res?.data?.message,
+      setNotification({
+        show: true,
+        message: "erroooooooor",
+        type: "error",
       });
     }
   };
@@ -84,6 +86,7 @@ const Login = () => {
           </HvxButton>
         </Form.Item>
       </Form>
+      <Notification notification={notification} />
     </div>
   );
 };

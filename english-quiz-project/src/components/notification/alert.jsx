@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Alert } from "antd";
 
-const Notification = ({ message, type, description, show }) => {
-  const [showAlert, setShowAlert] = useState(show);
+const Notification = ({ notification }) => {
+  const [showAlert, setShowAlert] = useState(notification.show);
 
   useEffect(() => {
     if (showAlert) {
@@ -10,17 +10,16 @@ const Notification = ({ message, type, description, show }) => {
     }
   }, [showAlert]);
 
-  const onClose = (e) => {
-    console.log(e, "I was closed.");
-  };
   return showAlert ? (
     <Alert
-      message="Warning Text Warning Text Warning TextW arning Text Warning Text Warning TextWarning Text"
-      type="warning"
+      message={notification.message}
+      type={notification.type}
       closable
-      onClose={onClose}
+      showIcon
     />
-  ) : null;
+  ) : (
+    ""
+  );
 };
 
 export default Notification;
