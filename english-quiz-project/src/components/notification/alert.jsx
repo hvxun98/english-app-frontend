@@ -1,24 +1,30 @@
-import React, { useEffect, useState } from "react";
-import { Alert } from "antd";
+import React, { useContext, useEffect, useState } from "react";
+import { HvxContext } from "../../contexts";
+import "./style.scss";
 
-const Notification = ({ notification }) => {
+const Notification = () => {
+  const { notification } = useContext(HvxContext);
   const [showAlert, setShowAlert] = useState(notification.show);
+  console.log(notification);
 
   useEffect(() => {
     if (showAlert) {
-      setTimeout(() => setShowAlert(false), 2000);
+      setTimeout(() => setShowAlert(false), 3000);
     }
-  }, [showAlert]);
+  }, [showAlert, notification]);
 
-  return showAlert ? (
-    <Alert
-      message={notification.message}
-      type={notification.type}
-      closable
-      showIcon
-    />
-  ) : (
-    ""
+  return (
+    <div>
+      {showAlert ? (
+        <div
+          className={`alert animate__animated animate__bounceInRight ${notification.type}`}
+        >
+          <span className="text">{notification.message}</span>
+        </div>
+      ) : (
+        ""
+      )}
+    </div>
   );
 };
 

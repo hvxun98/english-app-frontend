@@ -1,13 +1,15 @@
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
-import "antd/dist/antd.css";
 import AppRouter from "./config/router/router";
+import "antd/dist/antd.css";
 import "./BaseStyle.scss";
-import HvxContextProvider from "./contexts/HvxContext";
+import { HvxContextProvider } from "./contexts";
+import Notification from "./components/notification/alert";
 
 function App() {
   return (
     <HvxContextProvider>
+      <Notification />
       <Router>
         <AppRouter />
       </Router>

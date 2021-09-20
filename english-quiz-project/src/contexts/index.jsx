@@ -2,22 +2,16 @@ import React, { createContext, useState } from "react";
 
 export const HvxContext = createContext();
 
-const HvxContextProvider = ({ children }) => {
-
+export const HvxContextProvider = ({ children }) => {
   const [notification, setNotification] = useState({
+    show: false,
     message: "",
     type: "",
   });
 
-  const notificationContextData = {
-    notification,
-    setNotification,
-  };
   return (
-    <HvxContext.Provider value={notificationContextData}>
+    <HvxContext.Provider value={{ notification, setNotification }}>
       {children}
     </HvxContext.Provider>
   );
 };
-
-export default HvxContextProvider;

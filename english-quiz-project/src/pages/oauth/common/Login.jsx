@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { Form, Input, Checkbox } from "antd";
 import { LoginOutlined } from "@ant-design/icons";
 import HvxButton from "../../../components/button/HvxButton";
@@ -7,12 +7,11 @@ import { ApiUrl } from "../../../config/api/apiConst";
 import { useHistory } from "react-router-dom";
 import { ROUTER_CONST } from "../../../config/paramsConst/RouterConst";
 import { checkDataInLocalStorage, isLogin } from "../../../utils/CheckData";
-import Notification from "../../../components/notification/alert";
+import { HvxContext } from "../../../contexts";
 
-const Login = () => {
+const Login = ({ setLoading }) => {
   const history = useHistory();
-
-  const [notification, setNotification] = useState(false);
+  const { setNotification } = useContext(HvxContext);
 
   useEffect(() => {
     if (isLogin()) {
@@ -20,7 +19,12 @@ const Login = () => {
     }
   });
 
+ 
+
   const onFinish = async (values) => {
+    setLoading(true);
+
+    // eslint-disable-next-line
     let param = {
       username: values.username,
       password: values.password,
@@ -30,6 +34,7 @@ const Login = () => {
     let res = await apiCaller("post", param, ApiUrl.login);
     console.log(res);
     if (res?.code === 200) {
+      setLoading(false);
       localStorage.setItem("_token", res.data.token);
       localStorage.setItem("_currentUser", JSON.stringify(res.data));
       let redirectUrl = localStorage.getItem("urlBeforeLogin");
@@ -39,9 +44,10 @@ const Login = () => {
         history.push(ROUTER_CONST.game);
       }
     } else {
+      setLoading(false);
       setNotification({
         show: true,
-        message: "erroooooooor",
+        message: "test11111111",
         type: "error",
       });
     }
@@ -86,7 +92,6 @@ const Login = () => {
           </HvxButton>
         </Form.Item>
       </Form>
-      <Notification notification={notification} />
     </div>
   );
 };
