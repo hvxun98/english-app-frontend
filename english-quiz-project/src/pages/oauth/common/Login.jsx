@@ -1,56 +1,47 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Form, Input, Checkbox } from "antd";
 import { LoginOutlined } from "@ant-design/icons";
 import HvxButton from "../../../components/button/HvxButton";
-import { apiCaller } from "../../../config/apiCaller/Caller";
-import { ApiUrl } from "../../../config/api/apiConst";
 import { useHistory } from "react-router-dom";
 import { ROUTER_CONST } from "../../../config/paramsConst/RouterConst";
 import { checkDataInLocalStorage, isLogin } from "../../../utils/CheckData";
-import { HvxContext } from "../../../contexts";
+import { notificationErr } from "../../../utils/Notification";
+import { loginRequest } from "../../../services/authService";
 
 const Login = ({ setLoading }) => {
   const history = useHistory();
-  const { setNotification } = useContext(HvxContext);
 
   useEffect(() => {
     if (isLogin()) {
       history.push(ROUTER_CONST.home);
     }
-  });
-
- 
+  }, [history]);
 
   const onFinish = async (values) => {
     setLoading(true);
-
-    // eslint-disable-next-line
-    let param = {
+    let params = {
       username: values.username,
       password: values.password,
     };
-    console.log(param);
+    loginRequest(params, getResponseLogin, getError);
+  };
 
-    let res = await apiCaller("post", param, ApiUrl.login);
-    console.log(res);
-    if (res?.code === 200) {
-      setLoading(false);
-      localStorage.setItem("_token", res.data.token);
-      localStorage.setItem("_currentUser", JSON.stringify(res.data));
-      let redirectUrl = localStorage.getItem("urlBeforeLogin");
-      if (checkDataInLocalStorage(redirectUrl)) {
-        history.push(redirectUrl);
-      } else {
-        history.push(ROUTER_CONST.game);
-      }
+  const getResponseLogin = (res) => {
+    setLoading(false);
+    localStorage.setItem("_token", res.data.token);
+    localStorage.setItem("_currentUser", JSON.stringify(res.data));
+    let redirectUrl = localStorage.getItem("urlBeforeLogin");
+    if (checkDataInLocalStorage(redirectUrl)) {
+      history.push(redirectUrl);
     } else {
-      setLoading(false);
-      setNotification({
-        show: true,
-        message: "test11111111",
-        type: "error",
-      });
+      history.push(ROUTER_CONST.game);
     }
+  };
+
+  const getError = (err) => {
+    console.log(err.response);
+    setLoading(false);
+    notificationErr("Oops, something went wrong");
   };
 
   return (

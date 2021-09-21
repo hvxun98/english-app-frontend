@@ -4,12 +4,13 @@ import AppRouter from "./config/router/router";
 import "antd/dist/antd.css";
 import "./BaseStyle.scss";
 import { HvxContextProvider } from "./contexts";
-import Notification from "./components/notification/alert";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
     <HvxContextProvider>
-      <Notification />
+      <ToastContainer />
       <Router>
         <AppRouter />
       </Router>
