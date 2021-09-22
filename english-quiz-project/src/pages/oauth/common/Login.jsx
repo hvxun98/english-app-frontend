@@ -26,7 +26,8 @@ const Login = ({ setLoading }) => {
     loginRequest(params, getResponseLogin, getError);
   };
 
-  const getResponseLogin = (res) => {
+  const getResponseLogin = (response) => {
+    const res = response.data;
     setLoading(false);
     localStorage.setItem("_token", res.data.token);
     localStorage.setItem("_currentUser", JSON.stringify(res.data));
@@ -39,9 +40,9 @@ const Login = ({ setLoading }) => {
   };
 
   const getError = (err) => {
-    console.log(err.response);
+    console.log(err?.response);
     setLoading(false);
-    notificationErr("Oops, something went wrong");
+    notificationErr(err?.response?.data?.message || "Oops, something went wrong");
   };
 
   return (

@@ -71,19 +71,16 @@ export const postRequest = async (
   url = "",
   params,
   successCallback,
-  errorCallback,
-  timeout
+  errorCallback
 ) => {
   return await axios
-    .post(url, params, {
-      timeout,
-    })
+    .post(url, params)
     .then((response) => {
       if (successCallback) {
         try {
           successCallback(response);
         } catch (error) {
-          console.log(error);
+          console.log("error", error);
         }
       }
     })
@@ -106,8 +103,7 @@ export const putRequest = (
   timeout
 ) => {
   return axios
-    .put(url, {
-      params,
+    .put(url, params, {
       headers,
       timeout,
     })
@@ -139,8 +135,7 @@ export const deleteRequest = (
   timeout
 ) => {
   return axios
-    .delete(url, {
-      params,
+    .delete(url, params, {
       headers,
       timeout,
     })

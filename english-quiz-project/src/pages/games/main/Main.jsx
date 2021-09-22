@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { apiCaller } from "../../../config/apiCaller/Caller";
 import RightContent from "./rightContent/RightContent";
 import Sidebar from "./sidebar/Sidebar";
 import "./style.scss";
-import { ApiUrl } from "../../../config/api/apiConst";
 import { Spin } from "antd";
 import { shuffle } from "../../../utils/Shuffle";
 import Swal from "sweetalert2";
 import ScoresPage from "./scoresPage/ScoresPage";
+import {
+  finishGameRequest,
+  listQuestionRequest,
+} from "../../../services/gameService";
+import { notificationErr } from "../../../utils/Notification";
 
 const Main = () => {
   const [listQuestion, setListQuestion] = useState();
@@ -20,6 +23,7 @@ const Main = () => {
 
   useEffect(() => {
     fetchQuestionList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchQuestionList = async () => {
@@ -27,11 +31,19 @@ const Main = () => {
       examId: 1,
       userId: 1,
     };
-    let response = await apiCaller("post", params, ApiUrl.getGame);
-    if (response.code === 200) {
-      setListQuestion(shuffle(response.data));
-      setExam(response);
-    }
+
+    listQuestionRequest(params, getListQuestionResponse, getError);
+  };
+
+  const getListQuestionResponse = (response) => {
+    const res = response.data;
+    setListQuestion(shuffle(res.data));
+    setExam(response);
+  };
+
+  const getError = (error) => {
+    console.log(error.response);
+    notificationErr("Oooooooooooop!");
   };
 
   const handleFinishGame = async () => {
@@ -54,13 +66,16 @@ const Main = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         setLoadingSubmit(true);
-        let reponseFisnish = await apiCaller("post", params, ApiUrl.finishGame);
-        if (reponseFisnish.code === 200) {
-          setLoadingSubmit(false);
-          setFinishData(reponseFisnish);
-        }
+        finishGameRequest(params, getResponseFinishGame, getError);
       }
     });
+  };
+
+  const getResponseFinishGame = (response) => {
+    const res = response.data;
+    console.log(res);
+    setLoadingSubmit(false);
+    setFinishData(res);
   };
 
   const handleActiveQuestion = (item) => {
@@ -69,7 +84,7 @@ const Main = () => {
       setActiveListQuestion(temp);
     }
   };
-  
+
   const handleUnActiveQuestion = (id) => {
     let currentListQuestActive = activeQuetionList.filter((item) => {
       return item !== id;

@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { Form, Input } from "antd";
-import { apiCaller } from "../../../config/apiCaller/Caller";
-import { ApiUrl } from "../../../config/api/apiConst";
 import HvxButton from "../../../components/button/HvxButton";
-import Swal from "sweetalert2";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
+import { registerRequest } from "../../../services/authService";
+import { notificationErr, notificationSuccess } from "../../../utils/Notification";
 
 const Register = () => {
   const [showPass, setShowPass] = useState(false);
@@ -16,19 +15,20 @@ const Register = () => {
       username: values.username,
       password: values.password,
     };
-    console.log(param);
 
-    let res = await apiCaller("post", param, ApiUrl.register);
-    console.log(res);
-    if (res.code === 200) {
-    } else {
-      Swal.fire({
-        icon: "warning",
-        title: "Register fail",
-        text: "Something went wrong!",
-      });
-    }
+    registerRequest(param, getRegisterResponse, getError)
   };
+
+  const getRegisterResponse = (response) => {
+    console.log(response);
+    notificationSuccess("Resgiter success!")
+  }
+
+  const getError = (error) => {
+    console.log(error.response);
+    const err = error.response;
+    notificationErr(err?.data?.message || "Something went wrong :(")
+  }
   return (
     <div className="loginForm ">
       <Form name="basic" initialValues={{ remember: true }} onFinish={onFinish}>
