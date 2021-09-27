@@ -5,60 +5,55 @@ h4,
 h5,
 h6,
 p {
-  margin       : 0;
-  margin-top   : 0 !important;
+  margin: 0;
+  margin-top: 0 !important;
   margin-bottom: 0 !important;
 }
 
-/* Chỉ cho phép textarea được kéo dãn theo chiều dọc, trông sẽ đẹp hơn, không làm xấu layout */
 textarea {
   resize: vertical;
 }
 
-/* Xóa bỏ khoảng trắng thừa dưới image */
 img {
   vertical-align: middle;
 }
 
-/* Hầu hết là background không repeat, nên reset ở đây để giảm code CSS define chi tiết bên trong */
 *,
 ::before,
 ::after {
   background-repeat: no-repeat;
 }
 
-/* Cũng để dễ control theo design */
 ul,
 ol {
   list-style: none;
-  padding   : 0;
-  margin    : 0;
+  padding: 0;
+  margin: 0;
 }
 
-/* Tạo hiệu ứng bôi đen text khác biệt hơn mặc định */
 ::selection {
   background: #0031a2;
-  color     : #fff;
+  color: #fff;
 }
 
-body{
-    font-family: 'Merienda', cursive;
+body {
+  font-family: 'Merienda', cursive;
 }
 
 .center {
-  display        : flex;
+  display: flex;
   justify-content: center;
-  align-items    : center;
+  align-items: center;
 }
 
-.justifySpaceBetween{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.justifySpaceBetween {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.justifyFlexEnd{
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+.justifyFlexEnd {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }

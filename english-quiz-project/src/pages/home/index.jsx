@@ -1,24 +1,21 @@
 import React from "react";
-import hvxLogo from "../../assets/logo/hvx-logo.png";
+import Header from "./header/Header";
+import Rate from "./rate/Rate";
+
 import "./home.scss";
+import Sidebar from "./sidebar/Sidebar";
 
 const Home = () => {
   return (
     <div className="home">
-      <div className="home-header">
-        <div className="container">
-          <div className="header-content">
-            <div className="header-logo">
-              <img sr={hvxLogo} alt="logo" />
-            </div>
-
-            <div className="header-info">
-              <div className="header-info-user">
-                <img className="header-info-user-avatar" src="http://placehold.it/30x30" alt="avatar" />
-                <span className="header-info-user-name">Hoang Vu</span>
-              </div>
-            </div>
+      <Header />
+      <div className="content">
+        <div className="row">
+          <Sidebar />
+          <div className="col-md-6">
+            content
           </div>
+          <Rate />
         </div>
       </div>
     </div>

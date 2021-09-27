@@ -6,5 +6,6 @@ export const ApiUrl = {
     getGame: baseUrl + '/games/getGame',
     finishGame: baseUrl + '/games/finishGame',
     login: baseUrl + '/users/authenticate',
-    register: baseUrl + '/users/register'
+    register: baseUrl + '/users/register',
+    categories: baseUrl + '/categories'
 }
