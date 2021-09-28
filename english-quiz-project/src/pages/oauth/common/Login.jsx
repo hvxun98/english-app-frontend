@@ -7,9 +7,16 @@ import { ROUTER_CONST } from "../../../config/paramsConst/RouterConst";
 import { checkDataInLocalStorage, isLogin } from "../../../utils/CheckData";
 import { notificationErr } from "../../../utils/Notification";
 import { loginRequest } from "../../../services/authService";
+import {
+  saveUsername,
+  clearUsername,
+  getUsernameRemember,
+  saveUserInfo,
+} from "../../../utils/storage";
 
 const Login = ({ setLoading }) => {
   const history = useHistory();
+  const usernameRemember = getUsernameRemember();
 
   useEffect(() => {
     if (isLogin()) {
@@ -18,6 +25,12 @@ const Login = ({ setLoading }) => {
   }, [history]);
 
   const onFinish = async (values) => {
+    console.log(values);
+    if (values?.remember) {
+      saveUsername(values.username);
+    } else {
+      clearUsername();
+    }
     setLoading(true);
     let params = {
       username: values.username,
@@ -29,20 +42,24 @@ const Login = ({ setLoading }) => {
   const getResponseLogin = (response) => {
     const res = response.data;
     setLoading(false);
-    localStorage.setItem("_token", res.data.token);
-    localStorage.setItem("_currentUser", JSON.stringify(res.data));
+    saveUserInfo(res.data.token, res.data);
     let redirectUrl = localStorage.getItem("urlBeforeLogin");
     if (checkDataInLocalStorage(redirectUrl)) {
       history.push(redirectUrl);
     } else {
-      history.push(ROUTER_CONST.game);
+      history.push(ROUTER_CONST.home);
     }
   };
 
   const getError = (err) => {
     console.log(err?.response);
     setLoading(false);
-    notificationErr(err?.response?.data?.message || "Oops, something went wrong");
+    if (err?.response?.status !== 400) {
+      clearUsername();
+    }
+    notificationErr(
+      err?.response?.data?.message || "Oops, something went wrong"
+    );
   };
 
   return (
@@ -53,6 +70,7 @@ const Login = ({ setLoading }) => {
         </label>
         <Form.Item
           className="hvx-input"
+          initialValue={usernameRemember || ""}
           name="username"
           rules={[{ required: true, message: "Please input your username!" }]}
         >

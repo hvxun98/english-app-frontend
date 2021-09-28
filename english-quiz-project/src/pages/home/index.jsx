@@ -4,6 +4,7 @@ import Rate from "./rate/Rate";
 
 import "./home.scss";
 import Sidebar from "./sidebar/Sidebar";
+import Content from "./midContent/Content";
 
 const Home = () => {
   return (
@@ -12,9 +13,7 @@ const Home = () => {
       <div className="content">
         <div className="row">
           <Sidebar />
-          <div className="col-md-6">
-            content
-          </div>
+          <Content />
           <Rate />
         </div>
       </div>

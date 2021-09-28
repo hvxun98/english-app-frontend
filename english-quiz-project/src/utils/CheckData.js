@@ -1,4 +1,4 @@
-import { getToken } from "./GetData";
+import { getToken } from "./storage";
 
 export const isLogin = () => {
   const token = getToken();

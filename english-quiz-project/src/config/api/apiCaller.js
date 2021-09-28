@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getToken } from "../../utils/GetData";
+import { getToken } from "../../utils/storage";
 
 axios.interceptors.request.use((config) => {
   const token = getToken();

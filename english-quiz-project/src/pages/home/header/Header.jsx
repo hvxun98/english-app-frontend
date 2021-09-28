@@ -4,12 +4,13 @@ import hvxAvt from "../../../assets/images/avt.jpg";
 import { Menu, Dropdown } from "antd";
 import { useHistory } from "react-router";
 import { ROUTER_CONST } from "../../../config/paramsConst/RouterConst";
+import { clearUserInfo } from "../../../utils/storage";
 
 const Header = () => {
   const history = useHistory();
 
   const handleLogout = () => {
-    localStorage.clear();
+    clearUserInfo();
     history.push(ROUTER_CONST.login);
   };
 
