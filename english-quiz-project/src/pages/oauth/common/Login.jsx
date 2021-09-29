@@ -42,7 +42,9 @@ const Login = ({ setLoading }) => {
   const getResponseLogin = (response) => {
     const res = response.data;
     setLoading(false);
-    saveUserInfo(res.data.token, res.data);
+    saveUserInfo(res.data.token, res.data)
+    localStorage.setItem("_token", res.data.token);
+    localStorage.setItem("_currentUser", JSON.stringify(res.data));
     let redirectUrl = localStorage.getItem("urlBeforeLogin");
     if (checkDataInLocalStorage(redirectUrl)) {
       history.push(redirectUrl);

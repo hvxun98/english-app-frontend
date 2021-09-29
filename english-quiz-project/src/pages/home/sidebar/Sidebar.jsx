@@ -6,6 +6,7 @@ import { useState } from "react/cjs/react.development";
 const Sidebar = () => {
   const userInfo = getUserInfo();
   const [categoriesList, setCategoriesList] = useState([]);
+  const [currentTab, setCurrentTab] = useState(1);
 
   useEffect(() => {
     fetchCategories(getCategoriesRespone, getError);
@@ -20,7 +21,9 @@ const Sidebar = () => {
     console.log(err);
   };
 
-  console.log(categoriesList);
+  const handleSelectCategories = (id) => {
+    setCurrentTab(id)
+  }
 
   return (
     <div className="col-md-3">
@@ -32,11 +35,11 @@ const Sidebar = () => {
               Best score: <span className="best-scores">100</span>
             </p>
           </div>
-          <div className="sidebar-menu">
-            {categoriesList && categoriesList.length > 0
+          <div className="sidebar-menu mt-2">
+            {categoriesList?.length > 0
               ? categoriesList.map((category) => {
                   return (
-                    <div key={category.id} className="menu-item">
+                    <div key={category.id} className={`menu-item ${currentTab === category.id && 'active'}`} onClick={() => handleSelectCategories(category.id)}>
                       <span className="item">{category.categoryName}</span>
                     </div>
                   );
