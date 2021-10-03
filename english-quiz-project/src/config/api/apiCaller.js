@@ -39,9 +39,10 @@ export const getRequest = (
   params,
   successCallback,
   errorCallback,
+  timeout
 ) => {
   return axios
-    .get(url, params)
+    .get(url, params, { timeout })
     .then((response) => {
       if (successCallback) {
         try {

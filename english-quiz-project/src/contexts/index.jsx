@@ -3,14 +3,13 @@ import React, { createContext, useState } from "react";
 export const HvxContext = createContext();
 
 export const HvxContextProvider = ({ children }) => {
-  const [notification, setNotification] = useState({
-    show: false,
-    message: "",
-    type: "",
+  const [exam, setExam] = useState({
+    examId: 0,
+    totalTime: 0,
   });
 
   return (
-    <HvxContext.Provider value={{ notification, setNotification }}>
+    <HvxContext.Provider value={{ exam, setExam }}>
       {children}
     </HvxContext.Provider>
   );

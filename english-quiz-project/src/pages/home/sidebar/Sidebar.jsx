@@ -3,7 +3,7 @@ import { getUserInfo } from "../../../utils/storage";
 import { fetchCategories } from "../../../services/categoriesService";
 import { useState } from "react/cjs/react.development";
 
-const Sidebar = () => {
+const Sidebar = ({ setCurrentMennu }) => {
   const userInfo = getUserInfo();
   const [categoriesList, setCategoriesList] = useState([]);
   const [currentTab, setCurrentTab] = useState(1);
@@ -22,8 +22,9 @@ const Sidebar = () => {
   };
 
   const handleSelectCategories = (id) => {
-    setCurrentTab(id)
-  }
+    setCurrentTab(id);
+    setCurrentMennu(id);
+  };
 
   return (
     <div className="col-md-3">
@@ -39,7 +40,13 @@ const Sidebar = () => {
             {categoriesList?.length > 0
               ? categoriesList.map((category) => {
                   return (
-                    <div key={category.id} className={`menu-item ${currentTab === category.id && 'active'}`} onClick={() => handleSelectCategories(category.id)}>
+                    <div
+                      key={category.id}
+                      className={`menu-item ${
+                        currentTab === category.id && "active"
+                      }`}
+                      onClick={() => handleSelectCategories(category.id)}
+                    >
                       <span className="item">{category.categoryName}</span>
                     </div>
                   );

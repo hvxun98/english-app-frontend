@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import RightContent from "./rightContent/RightContent";
 import Sidebar from "./sidebar/Sidebar";
 import "./style.scss";
@@ -11,8 +11,9 @@ import {
   listQuestionRequest,
 } from "../../../services/gameService";
 import { notificationErr } from "../../../utils/Notification";
+import { HvxContext } from "../../../contexts";
 
-const Main = () => {
+const Main = (props) => {
   const [listQuestion, setListQuestion] = useState();
   const [exam, setExam] = useState();
   const [activeQuetionList, setActiveListQuestion] = useState([]);
@@ -21,6 +22,9 @@ const Main = () => {
   const [loadingSubmit, setLoadingSubmit] = useState(false);
   const [finishData, setFinishData] = useState();
 
+  const  examInfo  = useContext(HvxContext).exam;
+  console.log(examInfo);
+
   useEffect(() => {
     fetchQuestionList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -28,7 +32,7 @@ const Main = () => {
 
   const fetchQuestionList = async () => {
     let params = {
-      examId: 1,
+      examId: examInfo.examId,
       userId: 1,
     };
 

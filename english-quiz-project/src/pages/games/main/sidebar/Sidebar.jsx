@@ -25,7 +25,7 @@ const Sidebar = ({ listQuestion, activeQuetionList, handleFinishGame }) => {
                         spy={true}
                         smooth={true}
                         offset={-300}
-                        className="col-md-3" key={index} >
+                        className="col-md-3 quest-item" key={index} >
                         <span className={`item ${activeQuetionList.includes(item.id) ? "itemActive" : ""}` }>
                             {index + 1}
                         </span>

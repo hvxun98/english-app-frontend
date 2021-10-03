@@ -152,6 +152,13 @@
         border: 1px solid #e4e6eb;
         border-top: none;
         padding-top: 50px;
+        max-height: 100vh;
+        overflow-y: scroll;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
         // box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
         .list-box {
@@ -161,13 +168,47 @@
                 border: 1px solid #e4e6eb;
                 border-radius: 10px;
                 width: 100%;
-                height: 120px;
+                height: 150px;
                 margin: 10px 0;
+                padding: 10px;
+                position: relative;
+
+                .item-title {
+                    font-size: 18px;
+                    font-weight: bold;
+                }
 
                 &:hover {
                     transition: 0.3s;
                     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
                     cursor: pointer;
+                }
+
+                .best-score {
+                    position: absolute;
+                    background: red;
+                    right: 0px;
+                    border-top-right-radius: 10px;
+                    top: 0;
+                    color: white;
+                    padding: 3px 8px;
+                }
+
+                .hvx-btn-item {
+                    position: absolute;
+                    right: 10px;
+                    top: 70%;
+                    border-radius: 10px;
+                    background: #33adff;
+                    color: white;
+                    border: 1px solid #33adff;
+
+                    &:hover {
+                        background: white;
+                        color: #33adff;
+                        transition: 0.3s;
+                    }
+
                 }
             }
         }
