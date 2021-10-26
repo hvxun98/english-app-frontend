@@ -12,8 +12,12 @@ import {
 } from "../../../services/gameService";
 import { notificationErr } from "../../../utils/Notification";
 import { HvxContext } from "../../../contexts";
+import { useHistory } from "react-router";
+import { ROUTER_CONST } from "../../../config/paramsConst/RouterConst";
+import useUnload from "../../../hooks/useBeforeUnload";
+import { getUserInfo } from "../../../utils/storage";
 
-const Main = (props) => {
+const Main = () => {
   const [listQuestion, setListQuestion] = useState();
   const [exam, setExam] = useState();
   const [activeQuetionList, setActiveListQuestion] = useState([]);
@@ -22,8 +26,26 @@ const Main = (props) => {
   const [loadingSubmit, setLoadingSubmit] = useState(false);
   const [finishData, setFinishData] = useState();
 
-  const  examInfo  = useContext(HvxContext).exam;
+  const examInfo = useContext(HvxContext).exam;
+  const history = useHistory();
+  const currentUser = getUserInfo();
+
   console.log(examInfo);
+
+  useUnload((e) => {
+    e.preventDefault();
+    e.returnValue = "Oppp";
+  });
+
+  useEffect(() => {
+    if (
+      !examInfo ||
+      (examInfo.examId === 0 && examInfo.examId === 0 && examInfo.examId === 0)
+    ) {
+      history.push(ROUTER_CONST.home);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [examInfo]);
 
   useEffect(() => {
     fetchQuestionList();
@@ -32,8 +54,8 @@ const Main = (props) => {
 
   const fetchQuestionList = async () => {
     let params = {
-      examId: examInfo.examId,
-      userId: 1,
+      examId: examInfo?.examId,
+      userId: currentUser?.id,
     };
 
     listQuestionRequest(params, getListQuestionResponse, getError);
@@ -54,8 +76,8 @@ const Main = (props) => {
     let finalAnswer = listQuestionChoose1Of4.concat(listQuestionFillWord);
 
     let params = {
-      userId: 1,
-      examId: 1,
+      userId: currentUser?.id,
+      examId: examInfo.examId,
       totalTime: 30,
       listAnswer: finalAnswer,
     };
@@ -102,8 +124,8 @@ const Main = (props) => {
         <div className="container">
           {finishData ? (
             <ScoresPage
-              totalScores={exam?.totalPoint}
-              scores={finishData.scores}
+              totalScores={examInfo?.totalPoint}
+              scores={finishData?.scores}
             />
           ) : (
             <Spin
@@ -113,6 +135,7 @@ const Main = (props) => {
                 <div className="row ml-0 mr-0">
                   <div className="col-md-3 breakCol">
                     <Sidebar
+                      totalTime={examInfo?.totalTime}
                       activeQuetionList={activeQuetionList}
                       listQuestion={listQuestion}
                       handleFinishGame={handleFinishGame}

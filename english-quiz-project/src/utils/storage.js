@@ -48,3 +48,12 @@ export const getUsernameRemember = () => {
   }
   return false;
 };
+
+export const setToken = (token) => {
+  localStorage.setItem("_token", token)
+}
+
+export const setRefeshToken = (refeshToken) => {
+  localStorage.setItem("_refeshToken", refeshToken)
+}
+

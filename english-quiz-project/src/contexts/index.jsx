@@ -6,6 +6,7 @@ export const HvxContextProvider = ({ children }) => {
   const [exam, setExam] = useState({
     examId: 0,
     totalTime: 0,
+    totalPoint: 0,
   });
 
   return (

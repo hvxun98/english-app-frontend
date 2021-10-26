@@ -47,7 +47,10 @@ const Oauth = () => {
                 ) : menuSelected === "forgot" ? (
                   <ForgotPass />
                 ) : (
-                  <Register setLoadin={setLoading} />
+                  <Register
+                    setMenuSelected={setMenuSelected}
+                    setLoading={setLoading}
+                  />
                 )}
               </div>
             </Spin>

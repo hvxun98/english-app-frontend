@@ -3,32 +3,38 @@ import { Form, Input } from "antd";
 import HvxButton from "../../../components/button/HvxButton";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { registerRequest } from "../../../services/authService";
-import { notificationErr, notificationSuccess } from "../../../utils/Notification";
+import {
+  notificationErr,
+  notificationSuccess,
+} from "../../../utils/Notification";
 
-const Register = () => {
+const Register = ({ setMenuSelected, setLoading }) => {
   const [showPass, setShowPass] = useState(false);
 
   const onFinish = async (values) => {
+    setLoading(true);
     let param = {
       firstName: values.firstname,
       lastName: values.lastname,
+      email: values.email,
       username: values.username,
       password: values.password,
     };
 
-    registerRequest(param, getRegisterResponse, getError)
+    registerRequest(param, getRegisterResponse, getError);
   };
 
-  const getRegisterResponse = (response) => {
-    console.log(response);
-    notificationSuccess("Resgiter success!")
-  }
+  const getRegisterResponse = () => {
+    setLoading(false);
+    setMenuSelected("login");
+    notificationSuccess("Resgiter success!");
+  };
 
   const getError = (error) => {
-    console.log(error.response);
+    setLoading(false);
     const err = error.response;
-    notificationErr(err?.data?.message || "Something went wrong :(")
-  }
+    notificationErr(err?.data?.message || "Something went wrong :(");
+  };
   return (
     <div className="loginForm ">
       <Form name="basic" initialValues={{ remember: true }} onFinish={onFinish}>
@@ -59,17 +65,38 @@ const Register = () => {
         >
           <Input className="hvx-input" />
         </Form.Item>
+        <label htmlFor="lastname" className="ml-2">
+          Email
+        </label>
+        <Form.Item
+          className="hvx-input"
+          name="email"
+          rules={[
+            { required: true, message: "Please input your email!" },
+          ]}
+        >
+          <Input className="hvx-input" />
+        </Form.Item>
 
         <label htmlFor="username" className="ml-2">
           Username
         </label>
         <Form.Item
-          className="hvx-input"
+          className="hvx-input mb-5"
           name="username"
           rules={[
             { required: true, message: "Please input your username!" },
             { max: 20, message: "Max length 20 character" },
             { min: 6, message: "Min length 6 character" },
+            {
+              validator: (_, value) =>
+                // eslint-disable-next-line
+                /[^a-zA-Z0-9\-\/]/.test(value)
+                  ? Promise.reject(
+                      new Error("Username cannot contain special characters")
+                    )
+                  : Promise.resolve(),
+            },
           ]}
         >
           <Input className="hvx-input" />

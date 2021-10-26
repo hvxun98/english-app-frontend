@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { getUserInfo } from "../../../utils/storage";
 import { fetchCategories } from "../../../services/categoriesService";
 import { useState } from "react/cjs/react.development";
+import { notificationErr } from "../../../utils/Notification";
 
 const Sidebar = ({ setCurrentMennu }) => {
   const userInfo = getUserInfo();
@@ -13,12 +14,11 @@ const Sidebar = ({ setCurrentMennu }) => {
   }, []);
 
   const getCategoriesRespone = (res) => {
-    console.log(res.data?.data);
     setCategoriesList(res?.data?.data);
   };
 
-  const getError = (err) => {
-    console.log(err);
+  const getError = () => {
+    notificationErr("Cannot get categories")
   };
 
   const handleSelectCategories = (id) => {

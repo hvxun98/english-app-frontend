@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
-import { Select, Input, Spin } from "antd";
+import { Input, Spin } from "antd";
 import Lession from "./Lession";
 import { getExamList } from "../../../services/examService";
 import { useState } from "react/cjs/react.development";
 
-const { Option } = Select;
 const { Search } = Input;
 
 const Content = ({ currentMenu }) => {
   const [listExam, setListExam] = useState();
+  const [listExamClone, setListExamClone] = useState();
   const [loadingData, setLoadingData] = useState(true);
 
   useEffect(() => {
@@ -17,6 +17,7 @@ const Content = ({ currentMenu }) => {
       currentMenu,
       (res) => {
         setListExam(res.data.data);
+        setListExamClone(res.data.data);
         setLoadingData(false);
       },
       getError
@@ -24,7 +25,16 @@ const Content = ({ currentMenu }) => {
     // eslint-disable-next-line
   }, [currentMenu]);
 
-  const onSearch = (value) => console.log(value);
+  const onSearch = (value) => {
+    if (!value.trim() || !value?.length) {
+      setListExam(listExamClone);
+    } else {
+      const newExams = listExamClone.filter(
+        (exam) => exam?.examName.toLowerCase() === value.trim().toLowerCase()
+      );
+      setListExam(newExams);
+    }
+  };
 
   const getError = (err) => {
     console.log(err);
@@ -36,17 +46,17 @@ const Content = ({ currentMenu }) => {
       <Spin spinning={loadingData}>
         <div className="content-header">
           <div className="row">
-            <div className="col-md-6">
+            {/* <div className="col-md-6">
               <Select
-                defaultValue="lucy"
+                defaultValue="all"
                 style={{ width: "100%" }}
                 className="rate-selected"
               >
-                <Option value="jack">Jack</Option>
-                <Option value="lucy">Lucy</Option>
-                <Option value="Yiminghe">yiminghe</Option>
+                <Option value="all">All</Option>
+                <Option value="used">Used to do</Option>
+                <Option value="not">Not done yet</Option>
               </Select>
-            </div>
+            </div> */}
             <div className="col-md-6">
               <Search
                 placeholder="Search..."

@@ -152,3 +152,43 @@ export const deleteRequest = (
         }
     });
 };
+
+// const requestNewToken = () => {
+//   const refreshToken = getRefreshToken();
+
+//   if (!refreshToken) {
+//     alert("login again");
+//     window.location.href("/login");
+//   }
+
+//   const res = fetch(`api?refresh-token=${refreshToken}`, {
+//     method: "GET",
+//     mode: "cors",
+//     cache: "no-cache",
+//     credentials: "same-origin",
+//     headers: {
+//       "Content-Type": "application/json",
+//       Accept: "*/*",
+//       "Accept-Encoding": "gzip, deflate, br",
+//       Connection: "keep-alive",
+//     },
+//     redirect: "follow",
+//     referrer: "no-referrer",
+//   })
+//     .then((res1) => res1.json())
+//     .then((res2) => {
+//       if (res2.access_token) {
+//         try {
+//           setToken(res2.access_token);
+//           setRefeshToken(res2.refresh_token);
+//         } catch (error) {
+//           alert("login again");
+//           window.location.href("/login");
+//         }
+//       } else {
+//         window.location.href("/login");
+//       }
+//     });
+
+//   return res;
+// };

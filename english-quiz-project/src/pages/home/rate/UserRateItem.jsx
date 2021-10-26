@@ -1,6 +1,6 @@
 import React from "react";
 
-const UserRateItem = ({ idx, avatar, name }) => {
+const UserRateItem = ({ idx, avatar, name, point }) => {
   return (
     <div className="user-item">
       <div className="user-item-left">
@@ -12,7 +12,11 @@ const UserRateItem = ({ idx, avatar, name }) => {
           src={avatar || "http://placehold.it/30x30"}
           alt="user-avt"
         />
-        <span className="user-item-name">{name || "Tuan HM"}</span>
+        <span className="user-item-name">{name?.username}</span>
+      </div>
+
+      <div className="point">
+        <span>{point}</span>
       </div>
     </div>
   );

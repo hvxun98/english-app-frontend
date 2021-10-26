@@ -12,6 +12,7 @@ const Lession = ({ id, title, totalTime, totalPoint }) => {
     setExam({
       examId: id,
       totalTime: totalTime,
+      totalPoint: totalPoint,
     });
     history.push(`/exam`);
   };
@@ -20,17 +21,16 @@ const Lession = ({ id, title, totalTime, totalPoint }) => {
       <div className="item">
         <p className="item-title text-bold">{title || "Không có tiêu đề"}</p>
         <p>
-          Tổng điểm: <span className="text-bold">{totalPoint || 0}</span>{" "}
+          Total point: <span className="text-bold">{totalPoint || 0}</span>{" "}
         </p>
         <p>
-          Thơi gian thực hiện:{" "}
-          <span className="text-bold">{totalTime || 0}</span>
+          Total time: <span className="text-bold">{totalTime || 0}</span>
         </p>
         <div className="best-score">
           <span>90</span>
         </div>
         <Button className="hvx-btn-item" onClick={handleClickStart}>
-          Làm bài
+          Start
         </Button>
       </div>
     </div>
