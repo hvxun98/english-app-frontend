@@ -87,7 +87,7 @@ const Register = ({ setMenuSelected, setLoading }) => {
           rules={[
             { required: true, message: "Please input your username!" },
             { max: 20, message: "Max length 20 character" },
-            { min: 6, message: "Min length 6 character" },
+            { min: 5, message: "Min length 6 character" },
             {
               validator: (_, value) =>
                 // eslint-disable-next-line
