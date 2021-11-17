@@ -1,0 +1,63 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+textarea {
+  resize: vertical;
+}
+
+img {
+  vertical-align: middle;
+}
+
+*,
+::before,
+::after {
+  background-repeat: no-repeat;
+}
+
+ul,
+ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+::selection {
+  background: #0031a2;
+  color: #fff;
+}
+
+body {
+  font-family: 'Merienda', cursive;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.justifySpaceBetween {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.justifyFlexEnd {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.text-bold{
+  font-weight: bold;
+}

@@ -1,0 +1,43 @@
+.hvx-quetionItem {
+  margin: 30px 0;
+
+  .hvx-textTitleItem {
+    font-size: 18px;
+  }
+}
+
+.itemChoose1of4 {
+
+  .hvx-textTitleItem{
+    font-weight: bold;
+  }
+
+  .hvx-itemOption {
+    width    : 100%;
+    display  : flex;
+    flex-wrap: wrap;
+
+    .option {
+      margin     : 10px 0;
+      font-size  : 16px;
+      white-space: normal !important;
+    }
+  }
+
+  .hvx-descImg {
+    max-width: 600px;
+  }
+  .hvx-descText{
+    font-size: 18px;
+  }
+}
+
+.hvx-quetionItem{
+
+  .hvx-inputFillWord{
+    width: 200px;
+    margin-left: 10px;
+    border: none;
+    border-bottom: 1px solid #d9d9d9;
+  }
+}
