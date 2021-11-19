@@ -11,6 +11,8 @@ import HomeDashBoard from "./components/HomeDashboard";
 import { useLocation } from "react-router-dom";
 import { ROUTER_CONST } from "../../config/paramsConst/RouterConst";
 import CategoriesDashboard from "./components/CategoriesDashboard";
+import HeaderDashboard from "./components/HeaderDashboard";
+import QuestionDashboard from "./components/QuestionDashboard";
 
 const Dashboard = () => {
   const [currentMenu, setCurrentMenu] = useState(DASHBOARD_HOME_MENU);
@@ -37,6 +39,8 @@ const Dashboard = () => {
         return <HomeDashBoard />;
       case ROUTER_CONST.categories:
         return <CategoriesDashboard />;
+      case ROUTER_CONST.questions:
+        return <QuestionDashboard />;
       default:
         break;
     }
@@ -47,7 +51,11 @@ const Dashboard = () => {
         setCurrentMenu={setCurrentMenu}
         currentMenu={currentMenu}
       />
-      <div className="dashboard-content">{renderDashboardContent()}</div>
+
+      <div className="dashboard-content">
+        <HeaderDashboard />
+        {renderDashboardContent()}
+      </div>
     </div>
   );
 };

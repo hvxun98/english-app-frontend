@@ -3,7 +3,6 @@ import { Table, Space, Button, Input, Form, Spin, Modal } from "antd";
 import {
   createCategories,
   editCategories,
-  fetchCategories,
   removeCategories,
 } from "../../../services/categoriesService";
 import { RetweetOutlined } from "@ant-design/icons";
@@ -11,10 +10,11 @@ import moment from "moment";
 import { notificationSuccess } from "../../../utils/Notification";
 import isNumber from "lodash";
 import Swal from "sweetalert2";
+import { fetchQuestions } from "../../../services/questionService";
 
 const { Search } = Input;
 
-const CategoriesDashboard = () => {
+const QuestionDashboard = () => {
   const [categoriesList, setCategoriesList] = useState([]);
   const [categoryEdit, setCategoryEdit] = useState();
 
@@ -26,7 +26,7 @@ const CategoriesDashboard = () => {
 
   useEffect(() => {
     setLoadingDataTable(true);
-    fetchCategories((res) => {
+    fetchQuestions((res) => {
       setCategoriesList(res.data.data);
       setLoadingDataTable(false);
     });
@@ -108,26 +108,62 @@ const CategoriesDashboard = () => {
     {
       title: "ID",
       dataIndex: "id",
-      width: "10%",
+      width: "5%",
       key: "ID",
     },
     {
-      title: "Category Name",
-      dataIndex: "categoryName",
-      sorter: (a, b) => a.categoryName.localeCompare(b.categoryName),
-      width: "50%",
-      key: "CategoryName",
+      title: "Question Name",
+      dataIndex: "questionName",
+      sorter: (a, b) => a.questionName.localeCompare(b.questionName),
+      width: "10%",
+      key: "questionName",
     },
     {
-      title: "Update at",
-      dataIndex: "createdAt",
-      width: "25%",
-      key: "Created",
+      title: "Title",
+      dataIndex: "questionTitle",
+      width: "17%",
+      key: "questionTitle",
+    },
+    {
+      title: "Type",
+      dataIndex: "questionType",
+      width: "5%",
+      key: "questionType",
+    },
+    {
+      title: "Content",
+      dataIndex: "questionContent",
+      width: "20%",
+      key: "questionContent",
+    },
+    {
+      title: "Category",
+      dataIndex: "questionCaregory",
+      width: "5%",
+      key: "questionCaregory",
+    },
+    {
+      title: "Answer",
+      dataIndex: "questionAnswer",
+      width: "18%",
+      key: "questionAnswer",
+    },
+    {
+      title: "Level",
+      dataIndex: "questionLevel",
+      width: "5%",
+      key: "questionLevel",
+    },
+    {
+      title: "Point",
+      dataIndex: "questionPoint",
+      width: "5%",
+      key: "questionPoint",
     },
     {
       title: "Created At",
       dataIndex: "updatedAt",
-      width: "25%",
+      width: "5%",
       key: "Created",
     },
     {
@@ -152,7 +188,7 @@ const CategoriesDashboard = () => {
         );
       },
 
-      width: "25%",
+      width: "10%",
     },
   ];
 
@@ -167,7 +203,7 @@ const CategoriesDashboard = () => {
                   onClick={() => setOpenAddForm(true)}
                   className="btn-dashboard"
                 >
-                  New Category
+                  New Question
                 </Button>
               ) : (
                 <Form
@@ -283,4 +319,4 @@ const CategoriesDashboard = () => {
   );
 };
 
-export default CategoriesDashboard;
+export default QuestionDashboard;
