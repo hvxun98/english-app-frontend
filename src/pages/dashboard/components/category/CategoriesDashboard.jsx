@@ -3,19 +3,19 @@ import { Table, Space, Button, Input, Form, Spin, Modal } from "antd";
 import {
   createCategories,
   editCategories,
+  fetchCategories,
   removeCategories,
-} from "../../../services/categoriesService";
-import { RetweetOutlined } from "@ant-design/icons";
+} from "../../../../services/categoriesService";
+import { PlusCircleOutlined, RetweetOutlined } from "@ant-design/icons";
 import moment from "moment";
-import { notificationSuccess } from "../../../utils/Notification";
-import isNumber from "lodash";
+import { notificationSuccess } from "../../../../utils/Notification";
 import Swal from "sweetalert2";
-import { fetchQuestions } from "../../../services/questionService";
 
 const { Search } = Input;
 
-const QuestionDashboard = () => {
+const CategoriesDashboard = () => {
   const [categoriesList, setCategoriesList] = useState([]);
+  const [categoriesListClone, setCategoriesListClone] = useState([]); // search
   const [categoryEdit, setCategoryEdit] = useState();
 
   const [loadingDataTable, setLoadingDataTable] = useState(false);
@@ -26,22 +26,20 @@ const QuestionDashboard = () => {
 
   useEffect(() => {
     setLoadingDataTable(true);
-    fetchQuestions((res) => {
+    fetchCategories((res) => {
       setCategoriesList(res.data.data);
+      setCategoriesListClone(res.data.data)
       setLoadingDataTable(false);
     });
   }, [refetch]);
 
   const handleSearchCategories = (value) => {
-    if (isNumber(value)) {
-      console.log("number");
-    }
-    let categoriesListClone = JSON.parse(JSON.stringify(categoriesList));
-    categoriesListClone = categoriesListClone.filter((category) => {
+
+    let categoriesListCloneSearch = JSON.parse(JSON.stringify(categoriesListClone));
+    categoriesListCloneSearch = categoriesListCloneSearch.filter((category) => {
       return category.categoryName.toLowerCase().match(value.toLowerCase());
     });
-    console.log(categoriesListClone);
-    setCategoriesList(categoriesListClone);
+    setCategoriesList(categoriesListCloneSearch);
   };
 
   const handleAddCategory = (value) => {
@@ -108,62 +106,26 @@ const QuestionDashboard = () => {
     {
       title: "ID",
       dataIndex: "id",
-      width: "5%",
+      width: "10%",
       key: "ID",
     },
     {
-      title: "Question Name",
-      dataIndex: "questionName",
-      sorter: (a, b) => a.questionName.localeCompare(b.questionName),
-      width: "10%",
-      key: "questionName",
+      title: "Category Name",
+      dataIndex: "categoryName",
+      sorter: (a, b) => a.categoryName.localeCompare(b.categoryName),
+      width: "50%",
+      key: "CategoryName",
     },
     {
-      title: "Title",
-      dataIndex: "questionTitle",
-      width: "17%",
-      key: "questionTitle",
-    },
-    {
-      title: "Type",
-      dataIndex: "questionType",
-      width: "5%",
-      key: "questionType",
-    },
-    {
-      title: "Content",
-      dataIndex: "questionContent",
-      width: "20%",
-      key: "questionContent",
-    },
-    {
-      title: "Category",
-      dataIndex: "questionCaregory",
-      width: "5%",
-      key: "questionCaregory",
-    },
-    {
-      title: "Answer",
-      dataIndex: "questionAnswer",
-      width: "18%",
-      key: "questionAnswer",
-    },
-    {
-      title: "Level",
-      dataIndex: "questionLevel",
-      width: "5%",
-      key: "questionLevel",
-    },
-    {
-      title: "Point",
-      dataIndex: "questionPoint",
-      width: "5%",
-      key: "questionPoint",
+      title: "Update at",
+      dataIndex: "createdAt",
+      width: "25%",
+      key: "Created",
     },
     {
       title: "Created At",
       dataIndex: "updatedAt",
-      width: "5%",
+      width: "25%",
       key: "Created",
     },
     {
@@ -188,7 +150,7 @@ const QuestionDashboard = () => {
         );
       },
 
-      width: "10%",
+      width: "25%",
     },
   ];
 
@@ -203,7 +165,8 @@ const QuestionDashboard = () => {
                   onClick={() => setOpenAddForm(true)}
                   className="btn-dashboard"
                 >
-                  New Question
+                  <PlusCircleOutlined />
+                  New Category
                 </Button>
               ) : (
                 <Form
@@ -319,4 +282,4 @@ const QuestionDashboard = () => {
   );
 };
 
-export default QuestionDashboard;
+export default CategoriesDashboard;

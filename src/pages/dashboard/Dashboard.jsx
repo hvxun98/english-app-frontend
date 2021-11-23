@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import SidebarDashboard from "./components/SidebarDashboard";
+import SidebarDashboard from "./components/sidebar/SidebarDashboard";
 import "./dashboard.scss";
 import {
   DASHBOARD_HOME_MENU,
@@ -7,12 +7,12 @@ import {
   DASHBOARD_EXAMS_MENU,
   DASHBOARD_CATEGORIES_MENU,
 } from "../../constants/dashboardContants";
-import HomeDashBoard from "./components/HomeDashboard";
+import HomeDashBoard from "./components/chart/HomeDashboard";
 import { useLocation } from "react-router-dom";
 import { ROUTER_CONST } from "../../config/paramsConst/RouterConst";
-import CategoriesDashboard from "./components/CategoriesDashboard";
-import HeaderDashboard from "./components/HeaderDashboard";
-import QuestionDashboard from "./components/QuestionDashboard";
+import CategoriesDashboard from "./components/category/CategoriesDashboard";
+import HeaderDashboard from "./components/header/HeaderDashboard";
+import QuestionDashboard from "./components/question/QuestionDashboard";
 
 const Dashboard = () => {
   const [currentMenu, setCurrentMenu] = useState(DASHBOARD_HOME_MENU);

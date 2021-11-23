@@ -15,9 +15,9 @@ import {
   DASHBOARD_HOME_MENU,
   DASHBOARD_QUESTIONS_MENU,
   TOOLTIP_POSITION,
-} from "../../../constants/dashboardContants";
+} from "../../../../constants/dashboardContants";
 import { useHistory } from "react-router-dom";
-import { ROUTER_CONST } from "../../../config/paramsConst/RouterConst";
+import { ROUTER_CONST } from "../../../../config/paramsConst/RouterConst";
 
 const SidebarDashboard = ({ currentMenu }) => {
   const [isExpand, setIsExpand] = useState("");

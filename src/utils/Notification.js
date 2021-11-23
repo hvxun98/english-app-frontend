@@ -9,10 +9,17 @@ export const notificationErr = (message) => {
 };
 
 export const notificationSuccess = (message) => {
-    toast.success(message, {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: true,
-    });
-  };
-  
+  toast.success(message, {
+    position: "top-right",
+    autoClose: 3000,
+    hideProgressBar: true,
+  });
+};
+
+export const notificationWarning = (message) => {
+  toast.warning(message, {
+    position: "top-right",
+    autoClose: 3000,
+    hideProgressBar: true,
+  });
+};

@@ -239,6 +239,15 @@
   .btn-reset {
     margin-left: 90px;
   }
+
+  .form-add-question {
+    display: flex;
+    flex-wrap: wrap;
+
+    .form-add-item {
+      margin-bottom: 10px !important;
+    }
+  }
 }
 
 .ant-tooltip-inner {
@@ -293,4 +302,14 @@
       color: white !important;
     }
   }
+}
+
+.quest-label {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.required {
+  color: red;
 }
