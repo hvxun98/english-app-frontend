@@ -209,7 +209,7 @@ const FormAddQuestion = ({
               </label>
               <Form.Item
                 style={{ width: "100%" }}
-                name="questionCaregory"
+                name="questionCategory"
                 className="form-add-item"
                 rules={[
                   {

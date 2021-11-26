@@ -13,6 +13,7 @@ import { ROUTER_CONST } from "../../config/paramsConst/RouterConst";
 import CategoriesDashboard from "./components/category/CategoriesDashboard";
 import HeaderDashboard from "./components/header/HeaderDashboard";
 import QuestionDashboard from "./components/question/QuestionDashboard";
+import ExamDashboard from "./components/exam/ExamDashboard";
 
 const Dashboard = () => {
   const [currentMenu, setCurrentMenu] = useState(DASHBOARD_HOME_MENU);
@@ -41,6 +42,8 @@ const Dashboard = () => {
         return <CategoriesDashboard />;
       case ROUTER_CONST.questions:
         return <QuestionDashboard />;
+      case ROUTER_CONST.exams:
+        return <ExamDashboard />;
       default:
         break;
     }

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button, Input, Spin } from "antd";
-import { removeCategories } from "../../../../services/categoriesService";
 import { RetweetOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import moment from "moment";
 import {
@@ -11,10 +10,11 @@ import Swal from "sweetalert2";
 import {
   createQuestion,
   fetchQuestions,
+  removeQuestion,
 } from "../../../../services/questionService";
 import FormAddQuestion from "./FormAddQuestion";
 import { getUserInfo } from "../../../../utils/storage";
-import { getContentABCD } from "../../../../utils/questionTools";
+import { flatDataTable, getContentABCD } from "../../../../utils/questionTools";
 import {
   renderQuestionLevel,
   renderQuestionType,
@@ -22,6 +22,7 @@ import {
 import { fetchCategories } from "../../../../services/categoriesService";
 import { notificationErr } from "../../../../utils/Notification";
 import FormEditQuestion from "./FormEditQuestion";
+import FormViewQuestion from "./FormViewQuestion";
 
 const { Search } = Input;
 
@@ -29,6 +30,7 @@ const QuestionDashboard = () => {
   const [questionsList, setQuestionList] = useState([]);
   const [questionsListClone, setQuestionListClone] = useState([]); // search
   const [categoriesList, setCategoriesList] = useState([]);
+  const [questionSearchName, setQuestionSearchName] = useState("");
 
   const [loadingDataTable, setLoadingDataTable] = useState(false);
   const [openAddform, setOpenAddForm] = useState(false);
@@ -40,19 +42,23 @@ const QuestionDashboard = () => {
   useEffect(() => {
     setLoadingDataTable(true);
     fetchQuestions((res) => {
-      setQuestionList(res.data.data);
-      setQuestionListClone(res.data.data);
+      flatDataTable(res.data.data, (data) => {
+        setQuestionList(data);
+        setQuestionListClone(data);
+      });
       setLoadingDataTable(false);
     });
   }, [refetch]);
 
-  const handleSearchQuestion = (value) => {
-    if (value) {
+  const handleSearchQuestion = () => {
+    if (questionSearchName) {
       let questionsListCloneSearch = JSON.parse(
         JSON.stringify(questionsListClone)
       );
       questionsListCloneSearch = questionsListCloneSearch.filter((question) => {
-        return question.questionName.toLowerCase().match(value.toLowerCase());
+        return question.questionName
+          .toLowerCase()
+          .match(questionSearchName.toLowerCase());
       });
       console.log(questionsListCloneSearch);
       setQuestionList(questionsListCloneSearch);
@@ -81,7 +87,7 @@ const QuestionDashboard = () => {
         questionTitle,
         questionDescription,
         questionLevel,
-        questionCaregory,
+        questionCategory,
         questionAnswer,
         questionPoint,
         optionA,
@@ -95,7 +101,7 @@ const QuestionDashboard = () => {
         questionTitle,
         questionDescription,
         questionLevel,
-        questionCaregory,
+        questionCategory,
         questionAnswer,
         questionPoint,
         questionExam: 0,
@@ -117,7 +123,12 @@ const QuestionDashboard = () => {
     }
   };
 
-  const handleDeleteCategory = (categoryId) => {
+  const handleResetQuestions = () => {
+    setRefech(Date.now());
+    setQuestionSearchName("");
+  };
+
+  const handleDeleteQuestion = (questionId) => {
     Swal.fire({
       title: "Are you sure delete this question?",
       icon: "warning",
@@ -128,8 +139,8 @@ const QuestionDashboard = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         setLoading(true);
-        removeCategories(
-          categoryId,
+        removeQuestion(
+          questionId,
           () => {
             setLoading(false);
             setRefech(Date.now());
@@ -176,9 +187,9 @@ const QuestionDashboard = () => {
     },
     {
       title: "Category",
-      dataIndex: "questionCaregory",
+      dataIndex: "questionCategory",
       width: "5%",
-      key: "questionCaregory",
+      key: "questionCategory",
       render: (category) => renderCategory(category),
     },
     {
@@ -206,11 +217,20 @@ const QuestionDashboard = () => {
       render: (row) => {
         return (
           <div className="center flex-column">
-            <FormEditQuestion question={row} />
+            <FormViewQuestion
+              question={row}
+              categoriesList={categoriesList}
+              setRefech={setRefech}
+            />
+            <FormEditQuestion
+              question={row}
+              categoriesList={categoriesList}
+              setRefech={setRefech}
+            />
             <Button
               className="mt-2"
               danger
-              onClick={() => handleDeleteCategory(row.id)}
+              onClick={() => handleDeleteQuestion(row.id)}
             >
               Delete
             </Button>
@@ -248,19 +268,22 @@ const QuestionDashboard = () => {
             <div className="col-md-6 mb-3">
               <div className="align-item-center">
                 <Search
+                  value={questionSearchName}
+                  onChange={(e) => setQuestionSearchName(e.target.value)}
                   placeholder="Search question name"
                   onSearch={handleSearchQuestion}
                 />
-                <div
-                  className="btn-dashboard btn-reset"
-                  onClick={() => setRefech(Date.now())}
-                >
-                  <RetweetOutlined className="reset-icon icon" />
-                </div>
               </div>
             </div>
           </div>
-
+          <div className="justify-center">
+            <div
+              className="btn-dashboard mt-2 mb-3"
+              onClick={handleResetQuestions}
+            >
+              <RetweetOutlined className="reset-icon icon" />
+            </div>
+          </div>
           <Table
             loading={loadingDataTable}
             columns={columns}

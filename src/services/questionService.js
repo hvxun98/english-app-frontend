@@ -18,26 +18,26 @@ export const createQuestion = async (
   await postRequest(ApiUrl.questions, params, successCallback, errorCallback);
 };
 
-export const removeCategories = async (
-  categoryId,
+export const removeQuestion = async (
+  questionId,
   successCallback,
   errorCallback
 ) => {
   await deleteRequest(
-    ApiUrl.categories + `/${categoryId}`,
+    ApiUrl.questions + `/${questionId}`,
     {},
     successCallback,
     errorCallback
   );
 };
 
-export const editCategories = async (
+export const editQuestion = async (
   params,
   successCallback,
   errorCallback
 ) => {
   await putRequest(
-    ApiUrl.categories + `/${params.categoryId}`,
+    ApiUrl.questions + `/${params.questionId}`,
     params,
     successCallback,
     errorCallback

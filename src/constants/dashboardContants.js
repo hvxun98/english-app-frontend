@@ -28,9 +28,9 @@ export const questionLevel = [
 ];
 
 export const questionPoint = [
-  { id: 1, value: 10 },
-  { id: 2, value: 20 },
-  { id: 3, value: 50 },
+  { id: 1, value: 5 },
+  { id: 2, value: 10 },
+  { id: 3, value: 20 },
 ];
 
 export const renderQuestionLevel = (levelId) => {

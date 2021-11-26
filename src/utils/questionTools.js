@@ -12,3 +12,20 @@ export const getContentABCD = (answer) => {
   }
   return "";
 };
+
+export const renderContent = (text) => {
+  if (text?.length >= 70) {
+    const stringRender = text.slice(0, 70);
+    return `${stringRender}...`;
+  }
+  return text;
+};
+
+export const flatDataTable = (data, callback) => {
+  if (data && data.length) {
+    const newData = data.map((item) => {
+      return { ...item, key: item.id };
+    });
+    callback(newData);
+  }
+};

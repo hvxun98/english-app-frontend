@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Input, Spin } from "antd";
 import Lession from "./Lession";
-import { getExamList } from "../../../services/examService";
+import { getExamListByCategory } from "../../../services/examService";
 import { useState } from "react/cjs/react.development";
 
 const { Search } = Input;
@@ -13,7 +13,7 @@ const Content = ({ currentMenu }) => {
 
   useEffect(() => {
     setLoadingData(true);
-    getExamList(
+    getExamListByCategory(
       currentMenu,
       (res) => {
         setListExam(res.data.data);

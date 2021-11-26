@@ -1,7 +1,7 @@
 import { getRequest } from "../config/api/apiCaller";
 import { ApiUrl } from "../config/api/apiConst";
 
-export const getExamList = async (
+export const getExamListByCategory = async (
   categoryId,
   successCallback,
   errorCallback
@@ -12,4 +12,8 @@ export const getExamList = async (
     successCallback,
     errorCallback
   );
+};
+
+export const getExamList = async (successCallback, errorCallback) => {
+  await getRequest(ApiUrl.exam, {}, successCallback, errorCallback);
 };

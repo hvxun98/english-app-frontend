@@ -10,6 +10,7 @@ import { PlusCircleOutlined, RetweetOutlined } from "@ant-design/icons";
 import moment from "moment";
 import { notificationSuccess } from "../../../../utils/Notification";
 import Swal from "sweetalert2";
+import { flatDataTable } from "../../../../utils/questionTools";
 
 const { Search } = Input;
 
@@ -17,6 +18,7 @@ const CategoriesDashboard = () => {
   const [categoriesList, setCategoriesList] = useState([]);
   const [categoriesListClone, setCategoriesListClone] = useState([]); // search
   const [categoryEdit, setCategoryEdit] = useState();
+  const [categorySearchName, setCategorySearchName] = useState("");
 
   const [loadingDataTable, setLoadingDataTable] = useState(false);
   const [openAddform, setOpenAddForm] = useState(false);
@@ -27,19 +29,29 @@ const CategoriesDashboard = () => {
   useEffect(() => {
     setLoadingDataTable(true);
     fetchCategories((res) => {
-      setCategoriesList(res.data.data);
-      setCategoriesListClone(res.data.data)
+      flatDataTable(res.data.data, (data) => {
+        setCategoriesList(data);
+        setCategoriesListClone(data);
+      });
+
       setLoadingDataTable(false);
     });
   }, [refetch]);
 
-  const handleSearchCategories = (value) => {
-
-    let categoriesListCloneSearch = JSON.parse(JSON.stringify(categoriesListClone));
-    categoriesListCloneSearch = categoriesListCloneSearch.filter((category) => {
-      return category.categoryName.toLowerCase().match(value.toLowerCase());
-    });
-    setCategoriesList(categoriesListCloneSearch);
+  const handleSearchCategories = () => {
+    if (categorySearchName) {
+      let categoriesListCloneSearch = JSON.parse(
+        JSON.stringify(categoriesListClone)
+      );
+      categoriesListCloneSearch = categoriesListCloneSearch.filter(
+        (category) => {
+          return category.categoryName
+            .toLowerCase()
+            .match(categorySearchName.toLowerCase());
+        }
+      );
+      setCategoriesList(categoriesListCloneSearch);
+    }
   };
 
   const handleAddCategory = (value) => {
@@ -81,6 +93,11 @@ const CategoriesDashboard = () => {
         );
       }
     });
+  };
+
+  const handleResetCategories = () => {
+    setRefech(Date.now());
+    setCategorySearchName("");
   };
 
   const handleEditCategory = (value) => {
@@ -213,16 +230,21 @@ const CategoriesDashboard = () => {
             <div className="col-md-6 mb-3">
               <div className="align-item-center">
                 <Search
+                  value={categorySearchName}
+                  onChange={(e) => setCategorySearchName(e.target.value)}
                   placeholder="Search category name"
                   onSearch={handleSearchCategories}
                 />
-                <div
-                  className="btn-dashboard btn-reset"
-                  onClick={() => setRefech(Date.now())}
-                >
-                  <RetweetOutlined className="reset-icon icon" />
-                </div>
               </div>
+            </div>
+          </div>
+
+          <div className="justify-center">
+            <div
+              className="btn-dashboard mt-2 mb-3"
+              onClick={handleResetCategories}
+            >
+              <RetweetOutlined className="reset-icon icon" />
             </div>
           </div>
 
