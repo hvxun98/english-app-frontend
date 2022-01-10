@@ -16,7 +16,7 @@ import { notificationWarning } from "../../../../utils/Notification";
 
 const { Option } = Select;
 
-const FormChooseQuestion = ({ setListQuestionChoosed }) => {
+const FormChooseQuestion = ({ listQuestionChosen, setListQuestionChosen }) => {
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingDataTable, setLoadingDataTable] = useState(false);
@@ -31,6 +31,15 @@ const FormChooseQuestion = ({ setListQuestionChoosed }) => {
   const [questionCategorySelected, setQuestionCategorySelected] = useState(0);
 
   const [questionRowsSelected, setQuestionRowsSelected] = useState([]);
+
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+
+  useEffect(() => {
+    if (listQuestionChosen) {
+      const listKeySelected = listQuestionChosen?.map((item) => item.key);
+      setSelectedRowKeys(listKeySelected);
+    }
+  }, [listQuestionChosen]);
 
   useEffect(() => {
     setLoading(true);
@@ -90,7 +99,7 @@ const FormChooseQuestion = ({ setListQuestionChoosed }) => {
   const handleDoneForm = () => {
     if (questionRowsSelected?.length) {
       setVisible(false);
-      setListQuestionChoosed(questionRowsSelected);
+      setListQuestionChosen(questionRowsSelected);
     } else notificationWarning("Please select the questions");
   };
 
@@ -104,11 +113,7 @@ const FormChooseQuestion = ({ setListQuestionChoosed }) => {
   // rowSelection object indicates the need for row selection
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
-      console.log(
-        `selectedRowKeys: ${selectedRowKeys}`,
-        "selectedRows: ",
-        selectedRows
-      );
+      setSelectedRowKeys([...selectedRowKeys, selectedRowKeys]);
       setQuestionRowsSelected(selectedRows);
     },
   };
@@ -281,6 +286,7 @@ const FormChooseQuestion = ({ setListQuestionChoosed }) => {
                   rowSelection={{
                     type: "checkbox",
                     ...rowSelection,
+                    selectedRowKeys,
                   }}
                   loading={loadingDataTable}
                   columns={columns}

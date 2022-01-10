@@ -8,5 +8,5 @@ export const ROUTER_CONST = {
   questions: "/dashboard/questions",
   categories: "/dashboard/categories",
   exams: "/dashboard/exams",
-  dashboardHome: "/dashboard/home",
+  dashboardHome: "/dashboard",
 };

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Input, Form, Spin } from "antd";
-import { getContentABCD, renderContent } from "../../../../utils/questionTools";
+import { getContentABCD } from "../../../../utils/questionTools";
 import { getUserInfo } from "../../../../utils/storage";
 import moment from "moment";
 import {
@@ -9,14 +9,32 @@ import {
 } from "../../../../utils/Notification";
 import { editQuestion } from "../../../../services/questionService";
 import FormChooseQuestion from "./FormChooseQuestion";
-import { ClockCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
+import { ClockCircleOutlined } from "@ant-design/icons";
+import QuestionItem from "./QuestionItem";
 
 const FormAddExam = ({ question, setRefech, setModeExam }) => {
   const userInfo = getUserInfo();
   const [loading, setLoading] = useState(false);
-  const [listQuestionChoosed, setListQuestionChoosed] = useState([]);
+  const [listQuestionChosen, setListQuestionChosen] = useState([]);
+  const [totalPoint, setTotalPoint] = useState(0);
 
-  console.log(listQuestionChoosed);
+  useEffect(() => {
+    if (listQuestionChosen?.length) {
+      let tPoint = 0;
+      listQuestionChosen.forEach((item) => (tPoint += item.questionPoint));
+      setTotalPoint(tPoint);
+    }
+    // eslint-disable-next-line
+  }, [listQuestionChosen]);
+
+  const handleRemoveQuestionChoosed = (questId) => {
+    if (questId) {
+      const newListQuestionChosen = listQuestionChosen.filter(
+        (question) => question.id !== questId
+      );
+      setListQuestionChosen(newListQuestionChosen);
+    }
+  };
 
   const handleEditQuestion = (value) => {
     if (value) {
@@ -97,7 +115,7 @@ const FormAddExam = ({ question, setRefech, setModeExam }) => {
                     <Input placeholder="Enter exam name" />
                   </Form.Item>
                 </div>
-                <div className="col-md-3">
+                <div className="col-md-2">
                   <label className="quest-label" htmlFor="questionType">
                     <span className="required mt-2 mr-1">*</span>{" "}
                     <ClockCircleOutlined className="mr-2" /> Time (minutes)
@@ -126,6 +144,14 @@ const FormAddExam = ({ question, setRefech, setModeExam }) => {
                     <Input placeholder="0" />
                   </Form.Item>
                 </div>
+                <div className="col-md-2">
+                  <label className="quest-label" htmlFor="questionType">
+                    <span className="required mt-2 mr-1">*</span> Point
+                  </label>
+                  <span className="ml-2">
+                    <b>{totalPoint}</b>
+                  </span>
+                </div>
                 <div className="col-md-4 mt-4">
                   <div className="row pl-2 mt-1">
                     <Form.Item>
@@ -145,29 +171,18 @@ const FormAddExam = ({ question, setRefech, setModeExam }) => {
                 </div>
                 <div className="col-md-12">
                   <FormChooseQuestion
-                    setListQuestionChoosed={setListQuestionChoosed}
+                    listQuestionChosen={listQuestionChosen}
+                    setListQuestionChosen={setListQuestionChosen}
                   />
                 </div>
-                <div className="col-lg-12 col-xl-10">
-                  <div className="questtion-selected-list">
-                    <div className="question-selected-item">
-                      <div className="item-cpn">
-                        <span className="item-title">
-                          Quesion 1:{" "}
-                          {renderContent(
-                            "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repudiandae consequuntur tenetur expedita, ipsam eveniet veritatis hic dignissimos odit harum sequi"
-                          )}
-                        </span>
-                      </div>
-                      <div className="item-cpn">
-                        <span className="item-point">Point: 10</span>
-                      </div>
-                      <div className="item-cpn">
-                        <CloseCircleOutlined />
-                      </div>
-                    </div>
-                  </div>
+                <div className="col-md-12 mt-5">
+                  Questions selected: <b>{listQuestionChosen?.length}</b>
                 </div>
+
+                <QuestionItem
+                  data={listQuestionChosen}
+                  handleRemoveQuestionChoosed={handleRemoveQuestionChoosed}
+                />
               </div>
             </div>
           </div>
