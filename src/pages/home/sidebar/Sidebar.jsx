@@ -7,7 +7,7 @@ import { notificationErr } from "../../../utils/Notification";
 const Sidebar = ({ setCurrentMennu }) => {
   const userInfo = getUserInfo();
   const [categoriesList, setCategoriesList] = useState([]);
-  const [currentTab, setCurrentTab] = useState(1);
+  const [currentTab, setCurrentTab] = useState(2);
 
   useEffect(() => {
     fetchCategories((res) => setCategoriesList(res?.data?.data), getError);
@@ -28,9 +28,9 @@ const Sidebar = ({ setCurrentMennu }) => {
         <div className="home-sidebar">
           <div className="user-profile">
             <p className="user-fullname">{`${userInfo.firstName} ${userInfo.lastName}`}</p>
-            <p>
+            {/* <p>
               Best score: <span className="best-scores">100</span>
-            </p>
+            </p> */}
           </div>
           <div className="sidebar-menu mt-2">
             {categoriesList?.length > 0

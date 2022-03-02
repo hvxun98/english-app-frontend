@@ -58,15 +58,31 @@ body {
   align-items: center;
 }
 
-.text-bold{
+.text-bold {
   font-weight: bold;
 }
 
-.d-none{
+.d-none {
   display: none;
 }
 
-.justify-center{
+.justify-center {
   display: flex;
   justify-content: center;
+}
+
+.scrollbar {
+  &::-webkit-scrollbar {
+    width: 4px;
+    height: 12px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: none;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 16px;
+    background: #a3bac8;
+  }
 }

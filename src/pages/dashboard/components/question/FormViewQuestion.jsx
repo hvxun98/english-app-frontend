@@ -50,7 +50,7 @@ const FormViewQuestion = ({ question, categoriesList }) => {
                   className="form-add-item"
                   label="A"
                 >
-                  <Input placeholder="Enter option A" disabled={true} />
+                  <TextArea className="inp-answ" placeholder="Enter option A" disabled={true} />
                 </Form.Item>
               </div>
               <div className="col-md-6">
@@ -59,8 +59,9 @@ const FormViewQuestion = ({ question, categoriesList }) => {
                   name="optionB"
                   className="form-add-item"
                   label="B"
+                  type="text-area"
                 >
-                  <Input placeholder="Enter option B" disabled={true} />
+                  <TextArea className="inp-answ" placeholder="Enter option B" disabled={true} />
                 </Form.Item>
               </div>
               <div className="col-md-6">
@@ -70,7 +71,7 @@ const FormViewQuestion = ({ question, categoriesList }) => {
                   className="form-add-item"
                   label="C"
                 >
-                  <Input placeholder="Enter option C" disabled={true} />
+                  <TextArea className="inp-answ" placeholder="Enter option C" disabled={true} />
                 </Form.Item>
               </div>
               <div className="col-md-6">
@@ -80,7 +81,7 @@ const FormViewQuestion = ({ question, categoriesList }) => {
                   className="form-add-item"
                   label="D"
                 >
-                  <Input placeholder="Enter option D" disabled={true} />
+                  <TextArea className="inp-answ" placeholder="Enter option D" disabled={true} />
                 </Form.Item>
               </div>
             </div>

@@ -1,22 +1,37 @@
 import React, { useEffect, useState } from "react";
-import { Button, Input, Form, Spin } from "antd";
-import { getContentABCD } from "../../../../utils/questionTools";
+import { Button, Input, Form, Spin, Select } from "antd";
 import { getUserInfo } from "../../../../utils/storage";
-import moment from "moment";
-import {
-  notificationErr,
-  notificationSuccess,
-} from "../../../../utils/Notification";
-import { editQuestion } from "../../../../services/questionService";
+import { fetchCategories } from "../../../../services/categoriesService";
+
 import FormChooseQuestion from "./FormChooseQuestion";
 import { ClockCircleOutlined } from "@ant-design/icons";
 import QuestionItem from "./QuestionItem";
+import { createExam } from "../../../../services/examService";
+import {
+  notificationSuccess,
+  notificationWarning,
+} from "../../../../utils/Notification";
 
-const FormAddExam = ({ question, setRefech, setModeExam }) => {
+const { Option } = Select;
+
+const FormAddExam = ({ setModeExam, refetch }) => {
   const userInfo = getUserInfo();
   const [loading, setLoading] = useState(false);
   const [listQuestionChosen, setListQuestionChosen] = useState([]);
   const [totalPoint, setTotalPoint] = useState(0);
+
+  const [questionCategorySelected, setQuestionCategorySelected] =
+    useState(null);
+
+  const [categoriesList, setCategoriesList] = useState([]);
+
+  useEffect(() => {
+    setLoading(true);
+    fetchCategories((res) => {
+      setCategoriesList(res.data.data);
+      setLoading(false);
+    });
+  }, []);
 
   useEffect(() => {
     if (listQuestionChosen?.length) {
@@ -36,49 +51,29 @@ const FormAddExam = ({ question, setRefech, setModeExam }) => {
     }
   };
 
-  const handleEditQuestion = (value) => {
+  const handleAddExam = (value) => {
     if (value) {
-      const {
-        questionName,
-        questionType,
-        questionTitle,
-        questionDescription,
-        questionLevel,
-        questionCategory,
-        questionAnswer,
-        questionPoint,
-        optionA,
-        optionB,
-        optionC,
-        optionD,
-      } = value;
-
-      const newQuestion = {
-        questionId: question?.id,
-        questionName,
-        questionType,
-        questionTitle,
-        questionDescription,
-        questionLevel,
-        questionCategory,
-        questionAnswer,
-        questionPoint,
-        questionExam: 0,
-        questionContent: getContentABCD({ optionA, optionB, optionC, optionD }),
-        createdBy: userInfo?.id,
-        createdAt: moment(Date.now()).format("YYYY/MM/DD"),
+      const newExamValue = {
+        examName: value.examName,
+        totalPoint: totalPoint,
+        userId: userInfo?.id,
+        totalTime: value.totalTime,
+        categoryId: questionCategorySelected,
+        listQuestion: JSON.stringify(
+          listQuestionChosen?.map((question) => question.id)
+        ),
       };
-      setLoading(true);
-      editQuestion(
-        newQuestion,
+
+      createExam(
+        newExamValue,
         () => {
-          setRefech(Date.now());
-          setLoading(false);
-          notificationSuccess("Update successfully");
+          notificationSuccess("create new exam success!");
+          setModeExam("view");
+          refetch(Date.now());
         },
         (err) => {
-          setLoading(false);
-          notificationErr(err?.response?.message || "Something went wrong");
+          console.log(err.response);
+          notificationWarning("Oop!!, Some thing went wrong!");
         }
       );
     }
@@ -87,19 +82,19 @@ const FormAddExam = ({ question, setRefech, setModeExam }) => {
   return (
     <>
       <Spin spinning={loading}>
-        <Form onFinish={handleEditQuestion}>
+        <Form onFinish={handleAddExam}>
           <div>
             <div className="col-md-12">
               <h3 className="exam-title">Create new exam</h3>
               <div className="row">
                 {/* name */}
-                <div className="col-md-4">
+                <div className="col-md-2">
                   <label className="quest-label" htmlFor="questionType">
                     <span className="required mt-2 mr-1">*</span> Name
                   </label>
                   <Form.Item
                     style={{ width: "100%" }}
-                    name="questionName"
+                    name="examName"
                     className="form-add-item"
                     rules={[
                       {
@@ -113,6 +108,37 @@ const FormAddExam = ({ question, setRefech, setModeExam }) => {
                     ]}
                   >
                     <Input placeholder="Enter exam name" />
+                  </Form.Item>
+                </div>
+                {/* category */}
+                <div className="col-md-2">
+                  <label className="quest-label" htmlFor="questionCategory">
+                    <span className="required mt-2 mr-1">*</span> Category
+                  </label>
+
+                  <Form.Item
+                    style={{ width: "100%" }}
+                    name="examCategory"
+                    className="form-add-item"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please choose category!",
+                      },
+                    ]}
+                    initialValue={questionCategorySelected}
+                  >
+                    <Select
+                      style={{ width: "100%" }}
+                      onChange={(value) => setQuestionCategorySelected(value)}
+                    >
+                      <Option value={null}>Choose category</Option>
+                      {categoriesList?.map((category) => (
+                        <Option key={category.id} value={category.id}>
+                          {category.categoryName}{" "}
+                        </Option>
+                      ))}
+                    </Select>
                   </Form.Item>
                 </div>
                 <div className="col-md-2">
@@ -173,6 +199,8 @@ const FormAddExam = ({ question, setRefech, setModeExam }) => {
                   <FormChooseQuestion
                     listQuestionChosen={listQuestionChosen}
                     setListQuestionChosen={setListQuestionChosen}
+                    categoriesList={categoriesList}
+                    questionCategorySelected={questionCategorySelected}
                   />
                 </div>
                 <div className="col-md-12 mt-5">

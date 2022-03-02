@@ -179,6 +179,7 @@ const ExamDashboard = () => {
           <FormAddExam
             categoriesList={categoriesList}
             setModeExam={setModeExam}
+            refetch={setRefech}
           />
         );
       case "view":

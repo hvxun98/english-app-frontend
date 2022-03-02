@@ -7,7 +7,7 @@ import Sidebar from "./sidebar/Sidebar";
 import Content from "./midContent/Content";
 
 const Home = () => {
-  const [currentMenu, setCurrentMennu] = useState(1);
+  const [currentMenu, setCurrentMennu] = useState(2);
   return (
     <div className="home">
       <Header />
