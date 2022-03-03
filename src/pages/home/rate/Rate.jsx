@@ -1,10 +1,13 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react/cjs/react.development";
+import { ROUTER_CONST } from "../../../config/paramsConst/RouterConst";
 import { getResults } from "../../../services/resultService";
 import { notificationErr } from "../../../utils/Notification";
 
 const Sidebar = () => {
   const [historyList, setHistoryList] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
     getResults(
@@ -17,6 +20,10 @@ const Sidebar = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleViewDeatailHistory = (examId) => {
+    history.push(`${ROUTER_CONST.history}/${examId}`);
+  };
+
   return (
     <div className="col-md-3">
       <div className="center">
@@ -27,7 +34,11 @@ const Sidebar = () => {
           <div className="list-item-history scrollbar">
             {historyList?.length > 0 &&
               historyList.reverse().map((item, index) => (
-                <div key={index} className="history-item">
+                <div
+                  key={index}
+                  className="history-item"
+                  onClick={() => handleViewDeatailHistory(item.examId)}
+                >
                   <p>
                     <b>{item.examName || "No name"}</b>
                   </p>

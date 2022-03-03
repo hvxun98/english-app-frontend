@@ -5,6 +5,7 @@ import { Menu, Dropdown } from "antd";
 import { ROUTER_CONST } from "../../../config/paramsConst/RouterConst";
 import { clearUserInfo, getUserInfo } from "../../../utils/storage";
 import { useHistory } from "react-router";
+import './style.scss'
 
 const Header = () => {
   const userInfo = getUserInfo();

@@ -30,8 +30,6 @@ const Main = () => {
   const history = useHistory();
   const currentUser = getUserInfo();
 
-  console.log(examInfo);
-
   useUnload((e) => {
     e.preventDefault();
     e.returnValue = "Oppp";
@@ -53,7 +51,7 @@ const Main = () => {
   }, []);
 
   const fetchQuestionList = async () => {
-    let params = {
+    const params = {
       examId: examInfo?.examId,
       userId: currentUser?.id,
     };
