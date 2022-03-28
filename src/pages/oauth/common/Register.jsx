@@ -36,7 +36,7 @@ const Register = ({ setMenuSelected, setLoading }) => {
     notificationErr(err?.data?.message || "Something went wrong :(");
   };
   return (
-    <div className="loginForm ">
+    <div className="loginForm">
       <Form name="basic" initialValues={{ remember: true }} onFinish={onFinish}>
         <label htmlFor="firstname" className="ml-2">
           First Name

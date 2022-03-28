@@ -69,19 +69,23 @@ const Content = ({ currentMenu }) => {
         </div>
         <div className="list-box">
           <div className="row">
-            {listExam?.length > 0
-              ? listExam.map((exam) => {
-                  return (
-                    <Lession
-                      key={exam.id}
-                      id={exam.id}
-                      title={exam.examName}
-                      totalPoint={exam.totalPoint}
-                      totalTime={exam.totalTime}
-                    />
-                  );
-                })
-              : "No data"}
+            {listExam?.length > 0 ? (
+              listExam.map((exam) => {
+                return (
+                  <Lession
+                    key={exam.id}
+                    id={exam.id}
+                    title={exam.examName}
+                    totalPoint={exam.totalPoint}
+                    totalTime={exam.totalTime}
+                  />
+                );
+              })
+            ) : (
+              <div className="center" style={{ width: "100%" }}>
+                No data
+              </div>
+            )}
           </div>
         </div>
       </Spin>

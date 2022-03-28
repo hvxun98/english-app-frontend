@@ -12,7 +12,7 @@ const Oauth = () => {
   return (
     <div>
       <div className="hvx-loginPage">
-        <div className="container center h100">
+        <div className="container center">
           <div className="hvx-formLogin">
             <Spin spinning={loading}>
               <div className="hvx-menuSelect">
@@ -23,14 +23,14 @@ const Oauth = () => {
                   Login
                 </div>
                 <div className="breackCol"></div>
-                <div
+                {/* <div
                   className={`item ${
                     menuSelected === "forgot" ? "active" : ""
                   }`}
                   onClick={() => setMenuSelected("forgot")}
                 >
                   Forgot password
-                </div>
+                </div> */}
                 <div className="breackCol"></div>
                 <div
                   className={`item ${

@@ -63,16 +63,18 @@ const FormAddExam = ({ setModeExam, refetch }) => {
           listQuestionChosen?.map((question) => question.id)
         ),
       };
-
+      setLoading(true)
       createExam(
         newExamValue,
         () => {
           notificationSuccess("create new exam success!");
           setModeExam("view");
           refetch(Date.now());
+          setLoading(false)
         },
         (err) => {
           console.log(err.response);
+          setLoading(false)
           notificationWarning("Oop!!, Some thing went wrong!");
         }
       );

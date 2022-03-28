@@ -1,21 +1,18 @@
 import React, { useEffect } from "react";
 import { getUserInfo } from "../../../utils/storage";
-import { fetchCategories } from "../../../services/categoriesService";
-import { useState } from "react/cjs/react.development";
-import { notificationErr } from "../../../utils/Notification";
 
-const Sidebar = ({ setCurrentMennu }) => {
+import { useState } from "react/cjs/react.development";
+
+const Sidebar = ({ setCurrentMennu, categoriesList }) => {
   const userInfo = getUserInfo();
-  const [categoriesList, setCategoriesList] = useState([]);
-  const [currentTab, setCurrentTab] = useState(2);
+  const [currentTab, setCurrentTab] = useState();
 
   useEffect(() => {
-    fetchCategories((res) => setCategoriesList(res?.data?.data), getError);
-  }, []);
-
-  const getError = () => {
-    notificationErr("Cannot get categories");
-  };
+    if (categoriesList?.length) {
+      setCurrentTab(categoriesList[0]?.id);
+    }
+    // eslint-disable-next-line
+  }, [categoriesList]);
 
   const handleSelectCategories = (id) => {
     setCurrentTab(id);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -18,10 +18,25 @@ import {
 } from "../../../../constants/dashboardContants";
 import { useHistory } from "react-router-dom";
 import { ROUTER_CONST } from "../../../../config/paramsConst/RouterConst";
+import { getUserInfo } from "../../../../utils/storage";
+import { getUser } from "../../../../services/userService";
 
 const SidebarDashboard = ({ currentMenu }) => {
   const [isExpand, setIsExpand] = useState("");
   const history = useHistory();
+  const user = getUserInfo();
+  const [userInfo, setUserInfo] = useState();
+
+  useEffect(() => {
+    getUser(
+      user.id,
+      (res) => {
+        setUserInfo(res.data.data);
+      },
+      (err) => console.log(err)
+    );
+    // eslint-disable-next-line
+  }, []);
 
   const activeCurrentMenu = (curMenu) => {
     switch (curMenu) {
@@ -69,7 +84,7 @@ const SidebarDashboard = ({ currentMenu }) => {
         )}
 
         <div className="sidebar-user">
-          <img src="http://placehold.it/50x50" alt="avt" className="user-avt" />
+          <img src={userInfo?.avatar} alt="avt" className="user-avt" />
         </div>
       </div>
       <div className="sidebar-menu">

@@ -1,19 +1,19 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react/cjs/react.development";
-import { ROUTER_CONST } from "../../../config/paramsConst/RouterConst";
-import { getResults } from "../../../services/resultService";
+import { getHistory } from "../../../services/resultService";
 import { notificationErr } from "../../../utils/Notification";
+import { getUserInfo } from "../../../utils/storage";
 
 const Sidebar = () => {
   const [historyList, setHistoryList] = useState([]);
-  const history = useHistory();
+
+  const currentUser = getUserInfo();
 
   useEffect(() => {
-    getResults(
+    getHistory(
+      currentUser.id,
       (res) => {
-        console.log(res);
-        setHistoryList(res.data.data);
+        setHistoryList(JSON.parse(JSON.stringify(res.data.data)));
       },
       () => notificationErr("Can not get history")
     );
@@ -21,7 +21,14 @@ const Sidebar = () => {
   }, []);
 
   const handleViewDeatailHistory = (examId) => {
-    history.push(`${ROUTER_CONST.history}/${examId}`);
+    // history.push(`${ROUTER_CONST.history}/${examId}`);
+    console.log(examId);
+  };
+
+  const millisToMinutesAndSeconds = (millis) => {
+    var minutes = Math.floor(millis / 60000);
+    var seconds = ((millis % 60000) / 1000).toFixed(0);
+    return minutes + " min " + (seconds < 10 ? "0" : "") + seconds + " sec";
   };
 
   return (
@@ -44,8 +51,12 @@ const Sidebar = () => {
                   </p>
                   <div className="history-info">
                     <p>
+                      <b>Correct: </b>
+                      {item.numberOfCorrect}/{item.totalRecords}
+                    </p>
+                    <p>
                       <b>Time: </b>
-                      {item.totalTime}
+                      {millisToMinutesAndSeconds(item.totalTime)}
                     </p>
                     <p>
                       <b>Scores: </b>

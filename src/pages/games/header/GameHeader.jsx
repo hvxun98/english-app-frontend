@@ -26,6 +26,9 @@ const GameHeader = () => {
         <div className="row justifySpaceBetween">
           <div className="hvx-headerContent-left">
             <img className="hvx-logo" src={logoHVX} alt="logoHVX" />
+            <div className="text-logo">
+              <h1> HVX-English</h1>
+            </div>
           </div>
           <div className="hvx-headerContent-right center">
             <span>

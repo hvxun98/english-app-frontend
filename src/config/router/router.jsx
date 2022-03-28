@@ -10,6 +10,7 @@ const Game = lazy(() => import("../../pages/games"));
 const Oauth = lazy(() => import("../../pages/oauth"));
 const Dashboard = lazy(() => import("../../pages/dashboard/Dashboard"));
 const History = lazy(() => import("../../pages/history/History"))
+const Profile = lazy(() => import("../../pages/profile/Profile"))
 
 const AppRoutes = () => {
   return (
@@ -34,6 +35,11 @@ const AppRoutes = () => {
             exact
             path={ROUTER_CONST.history + "/:id"}
             component={History}
+          />
+           <PrivateRoute
+            exact
+            path={ROUTER_CONST.profile}
+            component={Profile}
           />
            <Route exact path="*" component={Notfound} />
         </Switch>
