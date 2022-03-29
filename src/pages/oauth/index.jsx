@@ -23,14 +23,14 @@ const Oauth = () => {
                   Login
                 </div>
                 <div className="breackCol"></div>
-                <div
+                {/* <div
                   className={`item ${
                     menuSelected === "forgot" ? "active" : ""
                   }`}
                   onClick={() => setMenuSelected("forgot")}
                 >
                   Forgot password
-                </div>
+                </div> */}
                 <div className="breackCol"></div>
                 <div
                   className={`item ${
@@ -44,9 +44,11 @@ const Oauth = () => {
               <div className="center">
                 {menuSelected === "login" ? (
                   <Login setLoading={setLoading} />
-                ) : menuSelected === "forgot" ? (
+                )
+                 : menuSelected === "forgot" ? (
                   <ForgotPass />
-                ) : (
+                )
+                 : (
                   <Register
                     setMenuSelected={setMenuSelected}
                     setLoading={setLoading}

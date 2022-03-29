@@ -1,4 +1,4 @@
-const baseUrl = process.env.REACT_APP_BASE_API_URL;
+const baseUrl = "https://english-backend-v2.herokuapp.com";
 
 export const ApiUrl = {
   questions: baseUrl + "/questions",
