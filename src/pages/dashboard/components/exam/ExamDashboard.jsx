@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button, Input, Spin, Select } from "antd";
-import {
-  fetchCategories,
-  removeCategories,
-} from "../../../../services/categoriesService";
-import { getExamList } from "../../../../services/examService";
+import { fetchCategories } from "../../../../services/categoriesService";
+import { getExamList, removeExam } from "../../../../services/examService";
 import { PlusCircleOutlined, RetweetOutlined } from "@ant-design/icons";
 
 import { notificationSuccess } from "../../../../utils/Notification";
 import Swal from "sweetalert2";
 import FormAddExam from "./FormAddExam";
 import { flatDataTable } from "../../../../utils/questionTools";
+import FormEditExam from "./FormEditExam";
 
 const { Search } = Input;
 const { Option } = Select;
@@ -81,9 +79,9 @@ const ExamDashboard = () => {
     setModeExam("create");
   };
 
-  const handleDeleteCategory = (categoryId) => {
+  const handleRemoveExam = (examId) => {
     Swal.fire({
-      title: "Are you sure delete this category?",
+      title: "Are you sure delete this exam?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -92,8 +90,8 @@ const ExamDashboard = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         setLoading(true);
-        removeCategories(
-          categoryId,
+        removeExam(
+          examId,
           () => {
             setLoading(false);
             setRefech(Date.now());
@@ -151,16 +149,15 @@ const ExamDashboard = () => {
       render: (row) => {
         return (
           <div className="center flex-column">
-            <Button className="btn-action mb-2" type="default">
-              View
-            </Button>
-            <Button className="btn-action mb-2" type="primary">
-              Edit
-            </Button>
+            <FormEditExam
+              setRefech={setRefech}
+              examId={row.id}
+              category={renderCategory(row.categoryId)}
+            />
             <Button
               className="btn-action"
               danger
-              onClick={() => handleDeleteCategory(row.id)}
+              onClick={() => handleRemoveExam(row.id)}
             >
               Delete
             </Button>
@@ -179,6 +176,7 @@ const ExamDashboard = () => {
           <FormAddExam
             categoriesList={categoriesList}
             setModeExam={setModeExam}
+            refetch={setRefech}
           />
         );
       case "view":

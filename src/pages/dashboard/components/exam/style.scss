@@ -1,0 +1,23 @@
+.form-edit-exam {
+    .quest-item {
+        padding: 5px 10px;
+        margin: 5px 0;
+        border-radius: 5px;
+        border: 1px solid rgba(92, 92, 92, 0.2);
+        position: relative;
+    }
+
+    .quest-item-title{
+        margin-bottom: 10px;
+    }
+
+    .quest-opt{
+        margin: 3px 0;
+    }
+
+    .item-cpn{
+        position: absolute;
+        top: 5px;
+        right: 5px;
+    }
+}

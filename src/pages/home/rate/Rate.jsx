@@ -1,44 +1,34 @@
 import React from "react";
 import { useEffect, useState } from "react/cjs/react.development";
-import { getTopRequest } from "../../../services/rateService";
+import { getHistory } from "../../../services/resultService";
 import { notificationErr } from "../../../utils/Notification";
-import UserRateItem from "./UserRateItem";
+import { getUserInfo } from "../../../utils/storage";
 
 const Sidebar = () => {
-  const [topListRender, setTopListRender] = useState();
-  const [userList, setUserList] = useState();
+  const [historyList, setHistoryList] = useState([]);
+
+  const currentUser = getUserInfo();
+
   useEffect(() => {
-    getTopRequest(getTopResponse, () =>
-      notificationErr("Can not get top user!")
+    getHistory(
+      currentUser.id,
+      (res) => {
+        setHistoryList(JSON.parse(JSON.stringify(res.data.data)));
+      },
+      () => notificationErr("Can not get history")
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const getTopResponse = (res) => {
-    console.log(res);
-    const listResults = res.data.results;
-    setUserList(res.data.users);
-    let listResultsMax = JSON.parse(JSON.stringify(listResults.sort(compare)));
-    const finalList = [];
-    for (let i = 0; i < listResultsMax.length; i++) {
-      if (
-        !finalList?.find((item) => item.examId === listResultsMax[i].examId)
-      ) {
-        finalList.push(listResultsMax[i]);
-      }
-    }
-    console.log(finalList);
-    setTopListRender(finalList);
+  const handleViewDeatailHistory = (examId) => {
+    // history.push(`${ROUTER_CONST.history}/${examId}`);
+    console.log(examId);
   };
 
-  const compare = (a, b) => {
-    if (a.totalPoint < b.totalPoint) {
-      return 1;
-    }
-    if (a.totalPoint > b.totalPoint) {
-      return -1;
-    }
-    return 0;
+  const millisToMinutesAndSeconds = (millis) => {
+    var minutes = Math.floor(millis / 60000);
+    var seconds = ((millis % 60000) / 1000).toFixed(0);
+    return minutes + " min " + (seconds < 10 ? "0" : "") + seconds + " sec";
   };
 
   return (
@@ -46,21 +36,35 @@ const Sidebar = () => {
       <div className="center">
         <div className="home-rate">
           <div className="rate-header">
-            <p className="rate-title">Top</p>
+            <p className="rate-title">History</p>
           </div>
-          <div className="list-user-top">
-            {topListRender?.length > 0
-              ? topListRender.map((item, index) => {
-                  return (
-                    <UserRateItem
-                      key={item.id}
-                      name={userList.find((user) => user.id === item.userId)}
-                      idx={index + 1}
-                      point={item.totalPoint}
-                    />
-                  );
-                })
-              : "Comming soon"}
+          <div className="list-item-history scrollbar">
+            {historyList?.length > 0 &&
+              historyList.reverse().map((item, index) => (
+                <div
+                  key={index}
+                  className="history-item"
+                  onClick={() => handleViewDeatailHistory(item.examId)}
+                >
+                  <p>
+                    <b>{item.examName || "No name"}</b>
+                  </p>
+                  <div className="history-info">
+                    <p>
+                      <b>Correct: </b>
+                      {item.numberOfCorrect}/{item.totalRecords}
+                    </p>
+                    <p>
+                      <b>Time: </b>
+                      {millisToMinutesAndSeconds(item.totalTime)}
+                    </p>
+                    <p>
+                      <b>Scores: </b>
+                      {item.totalPoint}
+                    </p>
+                  </div>
+                </div>
+              ))}
           </div>
         </div>
       </div>

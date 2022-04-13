@@ -1,21 +1,18 @@
 import React, { useEffect } from "react";
 import { getUserInfo } from "../../../utils/storage";
-import { fetchCategories } from "../../../services/categoriesService";
-import { useState } from "react/cjs/react.development";
-import { notificationErr } from "../../../utils/Notification";
 
-const Sidebar = ({ setCurrentMennu }) => {
+import { useState } from "react/cjs/react.development";
+
+const Sidebar = ({ setCurrentMennu, categoriesList }) => {
   const userInfo = getUserInfo();
-  const [categoriesList, setCategoriesList] = useState([]);
-  const [currentTab, setCurrentTab] = useState(1);
+  const [currentTab, setCurrentTab] = useState();
 
   useEffect(() => {
-    fetchCategories((res) => setCategoriesList(res?.data?.data), getError);
-  }, []);
-
-  const getError = () => {
-    notificationErr("Cannot get categories");
-  };
+    if (categoriesList?.length) {
+      setCurrentTab(categoriesList[0]?.id);
+    }
+    // eslint-disable-next-line
+  }, [categoriesList]);
 
   const handleSelectCategories = (id) => {
     setCurrentTab(id);
@@ -28,9 +25,9 @@ const Sidebar = ({ setCurrentMennu }) => {
         <div className="home-sidebar">
           <div className="user-profile">
             <p className="user-fullname">{`${userInfo.firstName} ${userInfo.lastName}`}</p>
-            <p>
+            {/* <p>
               Best score: <span className="best-scores">100</span>
-            </p>
+            </p> */}
           </div>
           <div className="sidebar-menu mt-2">
             {categoriesList?.length > 0

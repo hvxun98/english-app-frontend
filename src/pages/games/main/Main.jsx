@@ -26,16 +26,24 @@ const Main = () => {
   const [loadingSubmit, setLoadingSubmit] = useState(false);
   const [finishData, setFinishData] = useState();
 
+  const [startTime, setStartTime] = useState();
+
   const examInfo = useContext(HvxContext).exam;
   const history = useHistory();
   const currentUser = getUserInfo();
-
-  console.log(examInfo);
 
   useUnload((e) => {
     e.preventDefault();
     e.returnValue = "Oppp";
   });
+
+  useEffect(() => {
+    const test = setInterval(() => console.log(examInfo?.totalTime - 1), 1000);
+    if (examInfo?.totalTime) {
+      console.log(test);
+    }
+    return () => clearInterval(test);
+  }, [examInfo?.totalTime]);
 
   useEffect(() => {
     if (
@@ -53,7 +61,7 @@ const Main = () => {
   }, []);
 
   const fetchQuestionList = async () => {
-    let params = {
+    const params = {
       examId: examInfo?.examId,
       userId: currentUser?.id,
     };
@@ -65,22 +73,16 @@ const Main = () => {
     const res = response.data;
     setListQuestion(shuffle(res.data));
     setExam(response);
+    setStartTime(new Date().getTime());
   };
 
   const getError = (error) => {
     console.log(error.response);
-    notificationErr("Oooooooooooop!");
+    notificationErr("Ooop! Some thing went wrong!");
   };
 
   const handleFinishGame = async () => {
     let finalAnswer = listQuestionChoose1Of4.concat(listQuestionFillWord);
-
-    let params = {
-      userId: currentUser?.id,
-      examId: examInfo.examId,
-      totalTime: 30,
-      listAnswer: finalAnswer,
-    };
 
     await Swal.fire({
       title: "Are you sure finish ?",
@@ -92,7 +94,16 @@ const Main = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         setLoadingSubmit(true);
-        finishGameRequest(params, getResponseFinishGame, getError);
+        finishGameRequest(
+          {
+            userId: currentUser?.id,
+            examId: examInfo.examId,
+            totalTime: new Date().getTime() - startTime,
+            listAnswer: finalAnswer,
+          },
+          getResponseFinishGame,
+          getError
+        );
       }
     });
   };

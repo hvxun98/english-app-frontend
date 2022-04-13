@@ -12,7 +12,7 @@ const Oauth = () => {
   return (
     <div>
       <div className="hvx-loginPage">
-        <div className="container center h100">
+        <div className="container center">
           <div className="hvx-formLogin">
             <Spin spinning={loading}>
               <div className="hvx-menuSelect">

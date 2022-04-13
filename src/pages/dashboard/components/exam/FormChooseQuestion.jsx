@@ -7,7 +7,6 @@ import {
   renderQuestionType,
 } from "../../../../constants/dashboardContants";
 
-import { fetchCategories } from "../../../../services/categoriesService";
 import FormViewQuestion from "../question/FormViewQuestion";
 import { fetchQuestions } from "../../../../services/questionService";
 import { flatDataTable, renderContent } from "../../../../utils/questionTools";
@@ -16,19 +15,21 @@ import { notificationWarning } from "../../../../utils/Notification";
 
 const { Option } = Select;
 
-const FormChooseQuestion = ({ listQuestionChosen, setListQuestionChosen }) => {
+const FormChooseQuestion = ({
+  listQuestionChosen,
+  setListQuestionChosen,
+  categoriesList,
+  questionCategorySelected,
+}) => {
   const [visible, setVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [loadingDataTable, setLoadingDataTable] = useState(false);
   const [resetTableQuestion, setResetTableQuestion] = useState();
 
-  const [categoriesList, setCategoriesList] = useState([]);
   const [questionsList, setQuestionList] = useState([]);
   const [questionsListClone, setQuestionListClone] = useState([]); // search
 
   const [questionTypeSelected, setQuestionTypeSelected] = useState("");
   const [questionLevelSelected, setQuestionLevelSelected] = useState("");
-  const [questionCategorySelected, setQuestionCategorySelected] = useState(0);
 
   const [questionRowsSelected, setQuestionRowsSelected] = useState([]);
 
@@ -42,14 +43,6 @@ const FormChooseQuestion = ({ listQuestionChosen, setListQuestionChosen }) => {
   }, [listQuestionChosen]);
 
   useEffect(() => {
-    setLoading(true);
-    fetchCategories((res) => {
-      setCategoriesList(res.data.data);
-      setLoading(false);
-    });
-  }, []);
-
-  useEffect(() => {
     setLoadingDataTable(true);
     fetchQuestions((res) => {
       flatDataTable(res.data.data, (data) => {
@@ -59,19 +52,13 @@ const FormChooseQuestion = ({ listQuestionChosen, setListQuestionChosen }) => {
       //
       setLoadingDataTable(false);
     });
-  }, [resetTableQuestion]);
+  }, [resetTableQuestion, questionCategorySelected]);
 
   useEffect(() => {
     if (questionsListClone) {
-      console.log(questionsListClone);
-      console.log(
-        questionTypeSelected,
-        questionCategorySelected,
-        questionLevelSelected
-      );
       if (
         questionTypeSelected |
-        questionCategorySelected |
+        // questionCategorySelected |
         questionLevelSelected
       ) {
         const newQuestionList = questionsListClone.filter(
@@ -79,15 +66,16 @@ const FormChooseQuestion = ({ listQuestionChosen, setListQuestionChosen }) => {
             item?.questionType ===
               (questionTypeSelected || item?.questionType) &&
             item?.questionLevel ===
-              (questionLevelSelected || item?.questionLevel) &&
-            item?.questionCategory ===
-              (questionCategorySelected || item?.questionCategory)
+              (questionLevelSelected || item?.questionLevel)
+          //   &&
+          // item?.questionCategory ===
+          //   (questionCategorySelected || item?.questionCategory)
         );
         setQuestionList(newQuestionList);
       }
     }
     // eslint-disable-next-line
-  }, [questionTypeSelected, questionLevelSelected, questionCategorySelected]);
+  }, [questionTypeSelected, questionLevelSelected]);
 
   const renderCategory = (categoryId) => {
     if (categoriesList.length) {
@@ -105,7 +93,7 @@ const FormChooseQuestion = ({ listQuestionChosen, setListQuestionChosen }) => {
 
   const handleResetQuestions = () => {
     setResetTableQuestion(Date.now());
-    setQuestionCategorySelected(0);
+    // setQuestionCategorySelected(0);
     setQuestionLevelSelected("");
     setQuestionTypeSelected("");
   };
@@ -116,6 +104,9 @@ const FormChooseQuestion = ({ listQuestionChosen, setListQuestionChosen }) => {
       setSelectedRowKeys([...selectedRowKeys, selectedRowKeys]);
       setQuestionRowsSelected(selectedRows);
     },
+    // getCheckboxProps: (record) => ({
+    //   disabled: selectedRowKeys?.includes(record?.key), // Column configuration not to be checked
+    // }),
   };
 
   const columns = [
@@ -208,29 +199,9 @@ const FormChooseQuestion = ({ listQuestionChosen, setListQuestionChosen }) => {
         onCancel={() => setVisible(false)}
         width={1500}
       >
-        <Spin spinning={loading}>
+        <Spin spinning={loadingDataTable}>
           <div className="col-12">
             <div className="row">
-              {/* category */}
-              <div className="col-md-4">
-                <label className="quest-label" htmlFor="questionCategory">
-                  <span className="required mt-2 mr-1">*</span> Category
-                </label>
-
-                <Select
-                  value={questionCategorySelected}
-                  style={{ width: "100%" }}
-                  onChange={(value) => setQuestionCategorySelected(value)}
-                >
-                  <Option value={0}>Choose category</Option>
-                  {categoriesList?.map((category) => (
-                    <Option key={category.id} value={category.id}>
-                      {category.categoryName}{" "}
-                    </Option>
-                  ))}
-                </Select>
-              </div>
-
               {/* type */}
               <div className="col-md-4">
                 <label className="quest-label" htmlFor="questionType">

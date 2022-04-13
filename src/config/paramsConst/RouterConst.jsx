@@ -9,4 +9,5 @@ export const ROUTER_CONST = {
   categories: "/dashboard/categories",
   exams: "/dashboard/exams",
   dashboardHome: "/dashboard",
+  history: "/history",
 };

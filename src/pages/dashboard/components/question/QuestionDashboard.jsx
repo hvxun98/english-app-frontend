@@ -75,7 +75,7 @@ const QuestionDashboard = () => {
   const renderCategory = (categoryId) => {
     if (categoriesList.length) {
       const category = categoriesList.find((ctgr) => ctgr.id === categoryId);
-      return category.categoryName;
+      return category?.categoryName || "no category";
     }
   };
 
@@ -184,6 +184,7 @@ const QuestionDashboard = () => {
       dataIndex: "questionContent",
       width: "30%",
       key: "questionContent",
+      render: (questionContent) => <div className="quest-content">{questionContent}</div>,
     },
     {
       title: "Category",
@@ -197,6 +198,7 @@ const QuestionDashboard = () => {
       dataIndex: "questionAnswer",
       width: "18%",
       key: "questionAnswer",
+      render: (questionAnswer) => <div className="quest-content">{questionAnswer}</div>,
     },
     {
       title: "Level",

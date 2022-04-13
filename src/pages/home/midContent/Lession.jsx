@@ -27,7 +27,7 @@ const Lession = ({ id, title, totalTime, totalPoint }) => {
           Total time: <span className="text-bold">{totalTime || 0}</span>
         </p>
         <div className="best-score">
-          <span>90</span>
+          <span>{totalPoint}</span>
         </div>
         <Button className="hvx-btn-item" onClick={handleClickStart}>
           Start
