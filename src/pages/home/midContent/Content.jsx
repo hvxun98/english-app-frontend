@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Input, Spin } from "antd";
 import Lession from "./Lession";
 import { getExamListByCategory } from "../../../services/examService";
-import { Pagination } from "antd";
 
 const { Search } = Input;
 
@@ -88,9 +87,9 @@ const Content = ({ currentMenu }) => {
             )}
           </div>
         </div>
-        <div className="center">
+        {/* <div className="center">
           <Pagination defaultCurrent={1} total={50} />
-        </div>
+        </div> */}
       </Spin>
     </div>
   );

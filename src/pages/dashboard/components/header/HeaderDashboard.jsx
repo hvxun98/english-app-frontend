@@ -17,7 +17,7 @@ const HeaderDashboard = () => {
           <div className="header-left">
             <img className="hvx-logo" src={logoHVX} alt="logoHVX" />
             <div className="text-logo">
-              <h1> HungLV-English</h1>
+              <h1> HaLinh-English</h1>
             </div>
           </div>
 

@@ -53,7 +53,7 @@ const Header = ({ refetch = false }) => {
           <div className="header-logo">
             <img className="header-logo-img" src={hvxLogo} alt="hvxLogo" />
             <div className="text-logo">
-              <h1> HungLV-English</h1>
+              <h1> HaLinh-English</h1>
             </div>
           </div>
 
