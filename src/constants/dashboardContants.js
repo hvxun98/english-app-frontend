@@ -19,6 +19,7 @@ export const renderQuestionType = (typeId) => {
 export const questionType = [
   { id: 1, name: "Choose ABCD" },
   { id: 2, name: "Find word" },
+  { id: 3, name: "Reading" },
 ];
 
 export const questionLevel = [
