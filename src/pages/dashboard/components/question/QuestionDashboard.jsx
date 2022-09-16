@@ -102,8 +102,8 @@ const QuestionDashboard = () => {
         questionDescription,
         questionLevel,
         questionCategory,
-        questionAnswer,
-        questionPoint,
+        questionAnswer: questionAnswer || "no answer",
+        questionPoint: questionPoint || 0,
         questionExam: 0,
         questionContent: getContentABCD({ optionA, optionB, optionC, optionD }),
         createdBy: userInfo?.id,
@@ -184,7 +184,9 @@ const QuestionDashboard = () => {
       dataIndex: "questionContent",
       width: "30%",
       key: "questionContent",
-      render: (questionContent) => <div className="quest-content">{questionContent}</div>,
+      render: (questionContent) => (
+        <div className="quest-content">{questionContent}</div>
+      ),
     },
     {
       title: "Category",
@@ -198,7 +200,9 @@ const QuestionDashboard = () => {
       dataIndex: "questionAnswer",
       width: "18%",
       key: "questionAnswer",
-      render: (questionAnswer) => <div className="quest-content">{questionAnswer}</div>,
+      render: (questionAnswer) => (
+        <div className="quest-content">{questionAnswer}</div>
+      ),
     },
     {
       title: "Level",

@@ -5,6 +5,7 @@ import {
   questionPoint,
   questionType,
   QUESTION_CHOOSE_ABCD,
+  QUESTION_READING,
 } from "../../../../constants/dashboardContants";
 
 const { Option } = Select;
@@ -274,77 +275,81 @@ const FormAddQuestion = ({
             </div>
 
             {/* Point */}
-            <div className="col-md-6">
-              <label className="quest-label" htmlFor="questionPoint">
-                <span className="required mt-2 mr-1">*</span> Point
-              </label>
-              <Form.Item
-                style={{ width: "100%" }}
-                name="questionPoint"
-                className="form-add-item"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please choose Point!",
-                  },
-                ]}
-              >
-                <Select defaultValue={0}>
-                  <Option value={0}>Choose Point</Option>
-                  {questionPoint?.map((point) => (
-                    <Option key={point.id} value={point.value}>
-                      {point.value}{" "}
-                    </Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </div>
+            {questTypeSelected !== QUESTION_READING && (
+              <div className="col-md-6">
+                <label className="quest-label" htmlFor="questionPoint">
+                  <span className="required mt-2 mr-1">*</span> Point
+                </label>
+                <Form.Item
+                  style={{ width: "100%" }}
+                  name="questionPoint"
+                  className="form-add-item"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please choose Point!",
+                    },
+                  ]}
+                >
+                  <Select defaultValue={0}>
+                    <Option value={0}>Choose Point</Option>
+                    {questionPoint?.map((point) => (
+                      <Option key={point.id} value={point.value}>
+                        {point.value}{" "}
+                      </Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+              </div>
+            )}
 
             {/* Content */}
             {renderFormAnswer(questTypeSelected)}
 
             {/* Answer */}
-            <div className="col-md-6">
-              <label className="quest-label" htmlFor="questionAnswer">
-                <span className="required mt-2 mr-1">*</span> Answer
-              </label>
-              <Form.Item
-                style={{ width: "100%" }}
-                name="questionAnswer"
-                className="form-add-item"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your question answer!",
-                  },
-                  {
-                    max: 200,
-                    message: "Answer name too long!",
-                  },
-                  ({ getFieldValue }) => ({
-                    validator(_, value) {
-                      if (
-                        getFieldValue("questionType") !==
-                          QUESTION_CHOOSE_ABCD ||
-                        getFieldValue("optionA") === value ||
-                        getFieldValue("optionB") === value ||
-                        getFieldValue("optionC") === value ||
-                        getFieldValue("optionD") === value
-                      ) {
-                        return Promise.resolve();
-                      }
-                      return Promise.reject(
-                        new Error(
-                          "The answer does not match one of the options!"
-                        )
-                      );
+            {questTypeSelected !== QUESTION_READING && (
+              <div className="col-md-6">
+                <label className="quest-label" htmlFor="questionAnswer">
+                  <span className="required mt-2 mr-1">*</span> Answer
+                </label>
+                <Form.Item
+                  style={{ width: "100%" }}
+                  name="questionAnswer"
+                  className="form-add-item"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your question answer!",
                     },
-                  }),
-                ]}
-              >
-                <Input placeholder="Enter question answer" />
-              </Form.Item>
-            </div>
+                    {
+                      max: 200,
+                      message: "Answer name too long!",
+                    },
+                    ({ getFieldValue }) => ({
+                      validator(_, value) {
+                        if (
+                          getFieldValue("questionType") !==
+                            QUESTION_CHOOSE_ABCD ||
+                          getFieldValue("optionA") === value ||
+                          getFieldValue("optionB") === value ||
+                          getFieldValue("optionC") === value ||
+                          getFieldValue("optionD") === value
+                        ) {
+                          return Promise.resolve();
+                        }
+                        return Promise.reject(
+                          new Error(
+                            "The answer does not match one of the options!"
+                          )
+                        );
+                      },
+                    }),
+                  ]}
+                >
+                  <Input placeholder="Enter question answer" />
+                </Form.Item>
+              </div>
+            )}
           </div>
         </div>
         <div className="col-md-4 mt-4">

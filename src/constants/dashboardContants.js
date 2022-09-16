@@ -6,6 +6,7 @@ export const DASHBOARD_EXAMS_MENU = "DASHBOARD_EXAMS_MENU";
 export const TOOLTIP_POSITION = "right";
 export const QUESTION_CHOOSE_ABCD = 1;
 export const QUESTION_FIND_WORD = 2;
+export const QUESTION_READING = 3;
 
 export const renderQuestionType = (typeId) => {
   if (typeId === QUESTION_CHOOSE_ABCD) {
